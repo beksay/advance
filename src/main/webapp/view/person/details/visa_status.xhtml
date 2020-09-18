@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	template="/WEB-INF/templates/layouts/private.xhtml">
+	<ui:define name="main-content-left">
+		<ui:include src="../../../WEB-INF/templates/private/mainleftcontent.xhtml" />		
+	</ui:define>	
+	<ui:define name="content">
+		<div class="innerBlock">
+		    <div class="innerBlockHeader">
+		    	<ul>
+		    		<li>Visa Status</li>
+		    		<li><a><i class="fas fa-user"></i></a></li>
+					<li>#{step14Controller.module.person.fullname}</li>
+		    	</ul>
+		    </div>		
+		    <h:form id="form">
+		        <div class="row">
+					<div class="col">
+			            <h:outputLabel for="visaStatus" value="#{msgs.visaStatus}" />	 
+					    <p:selectOneMenu ajax="false" id="republics" value="#{step14Controller.module.visaStatus}" converter="enumConverter"
+					        required="true" requiredMessage="#{msgs.visaStatus} - #{msgs.isReq}" disabled="#{step14Controller.module.status eq 'COMPLETED'}">
+			                <f:selectItems value="#{step14Controller.visaStatusList}" var="item" itemLabel="#{enums[item]}" itemValue="#{item}"/>     
+			            </p:selectOneMenu>
+			            <h:message for="visaStatus" display="icon" style="color:red;" />		        	
+		        	</div>
+		        	<div class="col">
+			            <h:outputLabel value="#{msgs.dateCreated}" rendered="#{step14Controller.module.dateCreated ne null}"/>
+			            <h:outputLabel value="#{step14Controller.module.date}" rendered="#{step14Controller.module.dateCreated ne null}">
+			                <f:convertDateTime pattern="yyyy-MM-dd HH:mm" />
+			            </h:outputLabel>
+		            </div>
+		            <div class="col">
+			            <h:outputLabel value="#{msgs.filledBy}" rendered="#{step14Controller.module.dateCreated ne null}"/>
+			            <h:outputLabel value="#{step14Controller.module.user.person.fullname}" rendered="#{step14Controller.module.dateCreated ne null}"/>
+		            </div>
+					<h:panelGroup layout="block" class="col submit" rendered="#{step14Controller.module.status ne 'COMPLETED'}">
+						<p:commandButton ajax="false" styleClass="add-btn" value="#{msgs.save}" actionListener="#{step14Controller.save()}" />
+					</h:panelGroup>
+					<h:panelGroup layout="block" class="col button" rendered="#{step14Controller.module.status eq 'FILLED'}">
+						<p:commandButton  styleClass="green-btn" id="clearBtn" update="@form formLeftSide" action="#{step14Controller.complete()}" value="#{msgs.approve}" >
+						   <p:confirm header="Confirmation required ..." message="Do you really want to complete this process?" icon="pi pi-exclamation-triangle" />
+						</p:commandButton>
+						<p:growl id="growl" showDetail="true" sticky="true" /> 
+					</h:panelGroup>
+		        </div>
+	            <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+			        <p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes" icon="pi pi-check" />
+			        <p:commandButton value="No" type="button" styleClass="orange-btn" icon="pi pi-times" />
+			    </p:confirmDialog> 
+		 </h:form>
+		</div>
+	</ui:define>
+</ui:composition>

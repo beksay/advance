@@ -1,0 +1,46 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"> 
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"> 
+
+<ui:composition>
+	    <div class="mainSidecontent">
+			<h:form id="formLeftSide">
+			          
+		        <div class="main-menu">
+		           <ui:repeat var="module" value="#{personController.modules}">
+		          		<h:panelGroup  layout="block" rendered="#{module.status eq 'FILLED'}">
+							<span><i class="fas fa-hourglass-half"></i></span>
+		          	   </h:panelGroup>
+		          	   <h:panelGroup  layout="block" rendered="#{module.status eq 'NEW'}">
+							<span><i class="fas fa-plus"></i></span>
+		          	   </h:panelGroup>
+		          	   <h:panelGroup  layout="block" rendered="#{module.status eq 'COMPLETED'}">
+							<span><i class="fas fa-circle"></i></span>
+		          	   </h:panelGroup>
+		               <h:commandLink rendered="#{module.index eq 1}" action="#{step1Controller.edit(module)}"  value="Contract Signed" styleClass="#{view.viewId.contains('contract_signed') ? 'active' : ''}"/>
+		               <h:commandLink rendered="#{module.index eq 2}" action="#{step2Controller.edit(module)}"  value="Document List" styleClass="#{view.viewId.contains('document_list') ? 'active' : ''}"/>
+		               <h:commandLink rendered="#{module.index eq 3}" action="#{step3Controller.edit(module)}"  value="Application Fee" styleClass="#{view.viewId.contains('application_fee') ? 'active' : ''}"/>
+		               <h:commandLink rendered="#{module.index eq 4}" action="#{step4Controller.edit(module)}"  value="Application Submission" styleClass="#{view.viewId.contains('application_submission') ? 'active' : ''}"/>
+		               <h:commandLink rendered="#{module.index eq 5}" action="#{step5Controller.edit(module)}"  value="Letter of Acceptence" styleClass="#{view.viewId.contains('letter_of_acceptence') ? 'active' : ''}"/>
+		               <h:commandLink rendered="#{module.index eq 6}" action="#{step6Controller.edit(module)}"  value="Shipping Fee" styleClass="#{view.viewId.contains('shipping_fee') ? 'active' : ''}"/>
+		               <h:commandLink rendered="#{module.index eq 7}" action="#{step7Controller.edit(module)}"  value="I-20" styleClass="#{view.viewId.contains('i_20') ? 'active' : ''}"/>
+		               <h:commandLink rendered="#{module.index eq 8}" action="#{step8Controller.edit(module)}"  value="DS-160 Submission" styleClass="#{view.viewId.contains('ds_160') ? 'active' : ''}"/>
+		               <h:commandLink rendered="#{module.index eq 9}" action="#{step9Controller.edit(module)}"  value="Embassy Appointment" styleClass="#{view.viewId.contains('embassy_appointment') ? 'active' : ''}"/>
+		               <h:commandLink rendered="#{module.index eq 10}" action="#{step10Controller.edit(module)}"  value="Sevis Fee" styleClass="#{view.viewId.contains('sevis_fee') ? 'active' : ''}"/>
+		               <h:commandLink rendered="#{module.index eq 11}" action="#{step11Controller.edit(module)}"  value="Visa Preparation" styleClass="#{view.viewId.contains('visa_preparation') ? 'active' : ''}"/>
+		               <h:commandLink rendered="#{module.index eq 12}" action="#{step12Controller.edit(module)}"  value="Visa Document" styleClass="#{view.viewId.contains('visa_document') ? 'active' : ''}"/>
+		               <h:commandLink rendered="#{module.index eq 13}" action="#{step13Controller.edit(module)}"  value="Interview Date" styleClass="#{view.viewId.contains('interview_date') ? 'active' : ''}"/>
+		               <h:commandLink rendered="#{module.index eq 14}" action="#{step14Controller.edit(module)}"  value="Visa Status" styleClass="#{view.viewId.contains('visa_status') ? 'active' : ''}"/>
+		               <h:commandLink rendered="#{module.index eq 15}" action="#{step15Controller.edit(module)}"  value="Interview Question" styleClass="#{view.viewId.contains('interview_question') ? 'active' : ''}"/>
+		               <h:commandLink rendered="#{module.index eq 16}" action="#{step16Controller.edit(module)}"  value="Reason" styleClass="#{view.viewId.contains('reason') ? 'active' : ''}"/>
+		          </ui:repeat>
+				</div>
+				<h:commandLink style="margin-left:30px;margin-top:10px"  action="#{step1Controller.editProfile(module)}"  value="Student Profile" styleClass="#{view.viewId.contains('main') ? 'active' : ''}"/>	
+ 			</h:form>	
+ 							
+		</div> 
+	</ui:composition>
+</html>

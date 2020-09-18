@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	template="/WEB-INF/templates/layouts/private.xhtml">
+	<ui:define name="content">
+			<h:form>	
+			<div class="innerBlock">
+			    <div class="innerBlockHeader">
+			    	<ul>
+			    		<li>#{cityController.countryController.country.name}</li>
+						<li><a href="#del"><i class="fas fa-book"></i></a></li>
+			    	</ul>
+			    </div>
+			    <div class="row">
+			     <div class="col-3">
+		    	      <h:outputLabel for="cityType" value="#{msgs.cityType}" />	 
+					    <p:selectOneMenu ajax="false" id="cityType" value="#{cityController.city.type}" converter="enumConverter"
+					        required="true" requiredMessage="#{msgs.cityType} - #{msgs.isReq}">
+					        <f:selectItem itemLabel="" itemValue="" />
+			                <f:selectItems value="#{cityController.cityTypeList}" var="item" itemLabel="#{enums[item]}" itemValue="#{item}"/>     
+			            </p:selectOneMenu>
+			            <h:message for="cityType" display="icon" style="color:red;" />  
+		    	  </div>
+		    	  <div class="col-3"> 
+		    	        <h:outputLabel value="#{msgs.name}" />
+						<h:inputText id="name" value="#{cityController.city.name}" required="true"
+							requiredMessage="#{msgs.name} - #{msgs.isReq}">
+						</h:inputText>
+						<h:message for="name" display="icon" style="color:red;" />
+		    	  </div>
+		    	  <div class="col submit">
+					<p:commandButton ajax="false" value="#{msgs.save}" action="#{cityController.save()}"/>		    	
+			      </div>
+			      <div class="col submit">
+						<p:commandButton ajax="false" styleClass="orange-btn" value="#{msgs.cancel}" action="#{cityController.cancel()}" immediate="true"/>		    		
+			      </div>	
+			
+			   </div>  
+			</div>
+	    </h:form>
+	</ui:define>
+</ui:composition>

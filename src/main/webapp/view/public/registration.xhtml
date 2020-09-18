@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/templates/layouts/base.xhtml">
+
+    <ui:define name="wrap-container">
+
+        <div class="full-height p-padding login-page">
+
+            <div class="logo-block">
+                <h:link outcome="home">
+                    <h:graphicImage library="img" name="peak.jpeg" width="280px" height="auto"/>
+                </h:link>
+            </div>
+
+            <h:form id="login-form">
+
+                <p:growl/>
+
+                <h:inputText style="display:none;"/>
+                <h:inputSecret style="display:none;"/>
+
+
+                <h:panelGrid columns="2">
+
+                    <h:inputText id="firstname" class="uname"
+                                 value="#{userAction.person.firstname}" required="true"
+                                 requiredMessage="#{msgs.firstname} - #{msgs.isReq}">
+                    </h:inputText>
+                    <p:watermark for="firstname" value="#{msgs.firstname}"/>
+
+                    <h:inputText id="lastname" value="#{userAction.person.lastname}"
+                                 required="true"
+                                 requiredMessage="#{msgs.lastname} - #{msgs.isReq}">
+                    </h:inputText>
+                    <p:watermark value="#{msgs.lastname}" for="lastname"/>
+
+                    <h:inputText id="username-new" value="#{userAction.user.username}"
+                                 required="true"
+                                 requiredMessage="#{msgs.username} - #{msgs.isReq}">
+                    </h:inputText>
+                    <p:watermark value="#{msgs.username}" for="username-new"/>
+
+                    <h:inputSecret id="password-new" value="#{userAction.user.password}"
+                                   required="true"
+                                   requiredMessage="#{msgs.password} - #{msgs.isReq}">
+                    </h:inputSecret>
+                    <p:watermark value="#{msgs.password}" for="password-new"/>
+
+
+                </h:panelGrid>
+
+
+                <h:commandButton class="button" value="#{msgs.register}"
+                                 action="#{userAction.save()}" styleClass="button button-green w-1-1"/>
+
+                <p class="t-ctr m-top">
+                    <h:commandLink value="#{msgs.cancel}" action="#{userAction.returnHome()}" immediate="true"
+                                   styleClass="link"/>
+                </p>
+
+
+            </h:form>
+        </div>
+    </ui:define>
+</ui:composition>

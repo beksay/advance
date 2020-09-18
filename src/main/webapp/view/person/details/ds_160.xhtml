@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	template="/WEB-INF/templates/layouts/private.xhtml">
+	<ui:define name="main-content-left">
+		<ui:include src="../../../WEB-INF/templates/private/mainleftcontent.xhtml" />		
+	</ui:define>	
+	<ui:define name="content">
+	 <h:form id="formId">
+		<div class="innerBlock">
+			<div class="innerBlockHeader">
+		    	<ul>
+		    		<li>#{msgs.ds160}</li>
+					<li><a><i class="fas fa-user"></i></a></li>
+					<li>#{step8Controller.module.person.fullname}</li>
+		    	</ul>
+		    </div>
+		        <div class="row">
+		        	<div class="col">
+			            <h:outputLabel value="Confirmation Page"/>
+				        <h:panelGrid columns="1" id="dsFile">
+				    		
+								<p:fileUpload mode="advanced" fileUploadListener="#{step8Controller.handleFileUploadDsFile}"
+				                       update="messages dsFile" sizeLimit="10000000" fileLimit="1" auto="true"
+				                       fileLimitMessage="#{msgs.fileLimitMessage}" dragDropSupport="true"
+				                       uploadLabel="#{msgs.upload}" cancelLabel="#{msgs.cancel}" label="#{msgs.choose}"
+				                       rendered="#{step8Controller.module.status ne 'COMPLETED'}" />
+				         		<p:growl id="messages" showDetail="true"/>  
+				         		<br /><br />
+				         		<h:panelGrid columns="2" >
+						     		<p:commandButton styleClass="orange-btn" value="#{step8Controller.dsFile.name}" ajax="false" rendered="#{step8Controller.dsFile.name ne null}" icon="fas fa-download">
+									        <p:fileDownload value="#{utilController.downloadFile(step8Controller.dsFile)}" />
+									 </p:commandButton>
+						            <h:commandLink action="#{step8Controller.removeDsFile()}" immediate="true" alt="#{msgs.delete}" rendered="#{step8Controller.dsFile.name ne null and step8Controller.module.status eq 'FILLED'}"> <i class="fa fa-lg fa-trash"/> </h:commandLink>
+					            </h:panelGrid>
+					            <br />
+					            <br />
+					            <h:outputLabel value="#{step8Controller.module.user.person.fullname}"/>
+					            <h:outputLabel value="#{step8Controller.module.dateCreated}" rendered="#{step8Controller.module.dateCreated ne null}">
+					                <f:convertDateTime pattern="yyyy-MM-dd HH:mm" />
+					            </h:outputLabel>
+				     	</h:panelGrid>	        	
+		        	</div>
+		        	<div class="col">
+			            <h:outputLabel value="Application form"/>
+				        <h:panelGrid columns="1" id="dsFile2">
+				    		
+								<p:fileUpload mode="advanced" fileUploadListener="#{step8Controller.handleFileUploadDsFile2}"
+				                       update="messages2 dsFile2" sizeLimit="10000000" fileLimit="1" auto="true"
+				                       fileLimitMessage="#{msgs.fileLimitMessage}" dragDropSupport="true"
+				                       uploadLabel="#{msgs.upload}" cancelLabel="#{msgs.cancel}" label="#{msgs.choose}"
+				                       rendered="#{step8Controller.module.status ne 'COMPLETED'}" />
+				         		<p:growl id="messages2" showDetail="true"/>  
+				         		<br /><br />
+				         		<h:panelGrid columns="2" >
+						     		<p:commandButton styleClass="orange-btn" value="#{step8Controller.dsFile2.name}" ajax="false" rendered="#{step8Controller.dsFile2.name ne null}" icon="fas fa-download">
+									        <p:fileDownload value="#{utilController.downloadFile(step8Controller.dsFile2)}" />
+									 </p:commandButton>
+						            <h:commandLink action="#{step8Controller.removeDsFile2()}" immediate="true" alt="#{msgs.delete}" rendered="#{step8Controller.dsFile2.name ne null and step8Controller.module.status eq 'FILLED'}"> <i class="fa fa-lg fa-trash"/> </h:commandLink>
+					            </h:panelGrid>
+					            <br />
+					            <br />
+					            <h:outputLabel value="#{step8Controller.module.user.person.fullname}"/>
+					            <h:outputLabel value="#{step8Controller.module.dateCreated2}" rendered="#{step8Controller.module.dateCreated2 ne null}">
+					                <f:convertDateTime pattern="yyyy-MM-dd HH:mm" />
+					            </h:outputLabel>
+				     	</h:panelGrid>	        	
+		        	</div>
+		        	<h:panelGroup layout="block" class="col submit" rendered="#{step8Controller.module.status ne 'COMPLETED'}">
+						<p:commandButton ajax="false" styleClass="add-btn" value="#{msgs.save}" actionListener="#{step8Controller.save()}" />
+					</h:panelGroup>
+					<h:panelGroup layout="block" class="col button" rendered="#{step8Controller.module.status eq 'FILLED'}">
+						<p:commandButton  styleClass="green-btn" id="clearBtn" update="@form formLeftSide" action="#{step8Controller.complete()}" value="#{msgs.approve}" >
+						   <p:confirm header="Confirmation required ..." message="Do you really want to complete this process?" icon="pi pi-exclamation-triangle" />
+						</p:commandButton>
+						<p:growl id="growl" showDetail="true" sticky="true" /> 
+					</h:panelGroup>	
+					<p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+				        <p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes" icon="pi pi-check" />
+				        <p:commandButton value="No" type="button" styleClass="orange-btn" icon="pi pi-times" />
+				    </p:confirmDialog>
+		        </div>
+		        
+		     
+		 </div>
+      </h:form>
+	</ui:define>
+</ui:composition>

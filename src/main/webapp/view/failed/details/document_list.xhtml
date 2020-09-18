@@ -1,0 +1,197 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	template="/WEB-INF/templates/layouts/private.xhtml">
+	<ui:define name="main-content-left">
+		<ui:include src="../../../WEB-INF/templates/private/mainleftcontent.xhtml" />		
+	</ui:define>	
+	<ui:define name="content">
+	  <h:form>
+		<div class="innerBlock">
+			<div class="innerBlockHeader">
+		    	<ul>
+		    		<li>Document List</li>
+					<li><a><i class="fas fa-user"></i></a></li>
+					<li>#{step2Controller.module.person.fullname}</li>
+		    	</ul>
+		    </div>
+		   
+		        <div class="row">
+		        	<div class="col-3">
+				        <h:outputLabel value="Passport" style="color: #6aff6a;"/>
+				        <h:panelGrid columns="1" id="passport">	         		
+			         		    <p:commandButton styleClass="orange-btn" value="#{step2Controller.passport.name}" ajax="false" rendered="#{step2Controller.passport.name ne null}" icon="fas fa-download">
+							        <p:fileDownload value="#{utilController.downloadFile(step2Controller.passport)}" />
+							    </p:commandButton>
+					            <h:outputLabel value="#{step2Controller.module.passportDate}" rendered="#{step2Controller.module.id ne null}" style="color: burlywood">
+					                <f:convertDateTime pattern="yyyy-MM-dd HH:mm" />
+					            </h:outputLabel>
+				     	</h:panelGrid>	        	
+		        	</div>
+		        	<div class="col-3">
+			            <h:outputLabel value="Photo 5x5" style="color: #6aff6a;"/>
+				        <h:panelGrid columns="1" id="picture">
+			                    <p:commandButton styleClass="orange-btn" value="#{step2Controller.picture.name}" ajax="false" rendered="#{step2Controller.picture.name ne null}" icon="fas fa-download">
+							        <p:fileDownload value="#{utilController.downloadFile(step2Controller.picture)}" />
+							    </p:commandButton>
+					            <h:outputLabel value="#{step2Controller.module.pictureDate}" rendered="#{step2Controller.module.id ne null}" style="color: burlywood">
+					                <f:convertDateTime pattern="yyyy-MM-dd HH:mm" />
+					            </h:outputLabel>
+				     	</h:panelGrid>	        	
+		        	</div>
+		        	<div class="col-3">
+			            <h:outputLabel value="Bank statement" style="color: #6aff6a;"/>
+				        <h:panelGrid columns="1" id="bank">
+			                    <p:commandButton styleClass="orange-btn" value="#{step2Controller.bankStatement.name}" ajax="false" rendered="#{step2Controller.bankStatement.name ne null}" icon="fas fa-download">
+						            <p:fileDownload value="#{utilController.downloadFile(step2Controller.bankStatement)}" />
+							    </p:commandButton>
+					            <h:outputLabel value="#{step2Controller.module.bankStatementDate}" rendered="#{step2Controller.module.id ne null}" style="color: burlywood">
+					                <f:convertDateTime pattern="yyyy-MM-dd HH:mm" />
+					            </h:outputLabel>
+				     	</h:panelGrid>	        	
+		        	</div>
+		        	<div class="col-3">
+			            <h:outputLabel value="Parents ID" style="color: #6aff6a;"/>
+				        <h:panelGrid columns="1" id="parents">
+				                <p:commandButton styleClass="orange-btn" value="#{step2Controller.parents.name}" ajax="false" rendered="#{step2Controller.parents.name ne null}" icon="fas fa-download">
+						            <p:fileDownload value="#{utilController.downloadFile(step2Controller.parents)}" />
+							    </p:commandButton>    
+					            <h:outputLabel value="#{step2Controller.module.parentsDate}" rendered="#{step2Controller.module.id ne null}" style="color: burlywood">
+					                <f:convertDateTime pattern="yyyy-MM-dd HH:mm" />
+					            </h:outputLabel>
+				     	</h:panelGrid>	        	
+		        	</div>
+		        	<div class="col-3">
+			            <h:outputLabel value="Transcript" style="color: #6aff6a;"/>
+				        <h:panelGrid columns="1" id="transcript">
+				                <p:commandButton styleClass="orange-btn" value="#{step2Controller.transcript.name}" ajax="false" rendered="#{step2Controller.transcript.name ne null}" icon="fas fa-download">
+						            <p:fileDownload value="#{utilController.downloadFile(step2Controller.transcript)}" />
+							    </p:commandButton>     
+					            <h:outputLabel value="#{step2Controller.module.transcriptDate}" rendered="#{step2Controller.module.id ne null}" style="color: burlywood">
+					                <f:convertDateTime pattern="yyyy-MM-dd HH:mm" />
+					            </h:outputLabel>
+				     	</h:panelGrid>	        	
+		        	</div>
+		        	<div class="col-3">
+			            <h:outputLabel value="High School Diploma" style="color: #6aff6a;"/>
+				        <h:panelGrid columns="1" id="school">
+				                <p:commandButton styleClass="orange-btn" value="#{step2Controller.schoolDiploma.name}" ajax="false" rendered="#{step2Controller.schoolDiploma.name ne null}" icon="fas fa-download">
+						            <p:fileDownload value="#{utilController.downloadFile(step2Controller.schoolDiploma)}" />
+							    </p:commandButton>        
+					            <h:outputLabel value="#{step2Controller.module.schoolDiplomaDate}" rendered="#{step2Controller.module.id ne null}" style="color: burlywood">
+					                <f:convertDateTime pattern="yyyy-MM-dd HH:mm" />
+					            </h:outputLabel>
+				     	</h:panelGrid>	        	
+		        	</div>
+		        	<div class="col-3">
+			            <h:outputLabel value="University Diploma" />
+				        <h:panelGrid columns="1" id="university">
+				                <p:commandButton styleClass="orange-btn" value="#{step2Controller.universityDiploma.name}" ajax="false" rendered="#{step2Controller.universityDiploma.name ne null}" icon="fas fa-download">
+						            <p:fileDownload value="#{utilController.downloadFile(step2Controller.universityDiploma)}" />
+							    </p:commandButton>     
+					            <h:outputLabel value="#{step2Controller.module.universityDiplomaDate}" rendered="#{step2Controller.module.id ne null}" style="color: burlywood">
+					                <f:convertDateTime pattern="yyyy-MM-dd HH:mm" />
+					            </h:outputLabel>
+				     	</h:panelGrid>	        	
+		        	</div>
+		        	<div class="col-3">
+			            <h:outputLabel value="Motivational Letter" />
+				        <h:panelGrid columns="1" id="motivation">
+				                <p:commandButton styleClass="orange-btn" value="#{step2Controller.motivation.name}" ajax="false" rendered="#{step2Controller.motivation.name ne null}" icon="fas fa-download">
+						            <p:fileDownload value="#{utilController.downloadFile(step2Controller.motivation)}" />
+							    </p:commandButton>      
+					            <h:outputLabel value="#{step2Controller.module.motivationDate}" rendered="#{step2Controller.module.id ne null}" style="color: burlywood">
+					                <f:convertDateTime pattern="yyyy-MM-dd HH:mm" />
+					            </h:outputLabel>
+				     	</h:panelGrid>	        	
+		        	</div>
+		        	<div class="col-3">
+			            <h:outputLabel value="Recommendation Letter" />
+				        <h:panelGrid columns="1" id="recomendation">
+				                <p:commandButton styleClass="orange-btn" value="#{step2Controller.recomendation.name}" ajax="false" rendered="#{step2Controller.recomendation.name ne null}" icon="fas fa-download">
+						            <p:fileDownload value="#{utilController.downloadFile(step2Controller.recomendation)}" />
+							    </p:commandButton>      
+					            <h:outputLabel value="#{step2Controller.module.recomendationDate}" rendered="#{step2Controller.module.id ne null}" style="color: burlywood">
+					                <f:convertDateTime pattern="yyyy-MM-dd HH:mm" />
+					            </h:outputLabel>
+				     	</h:panelGrid>	        	
+		        	</div>
+		        	<div class="col-3">
+			            <h:outputLabel value="TOEFL/IELTS" />
+				        <h:panelGrid columns="1" id="toefl">
+				                <p:commandButton styleClass="orange-btn" value="#{step2Controller.toefl.name}" ajax="false" rendered="#{step2Controller.toefl.name ne null}" icon="fas fa-download">
+						            <p:fileDownload value="#{utilController.downloadFile(step2Controller.toefl)}" />
+							    </p:commandButton>     
+					            <h:outputLabel value="#{step2Controller.module.toeflDate}" rendered="#{step2Controller.module.id ne null}" style="color: burlywood">
+					                <f:convertDateTime pattern="yyyy-MM-dd HH:mm" />
+					            </h:outputLabel>
+				     	</h:panelGrid>	        	
+		        	</div>
+		        	<div class="col-3">
+			            <h:outputLabel value="Healt Certificate (086)"/>
+				        <h:panelGrid columns="1" id="health">
+				                <p:commandButton styleClass="orange-btn" value="#{step2Controller.health.name}" ajax="false" rendered="#{step2Controller.health.name ne null}" icon="fas fa-download">
+						            <p:fileDownload value="#{utilController.downloadFile(step2Controller.health)}" />
+							    </p:commandButton>    
+					            <h:outputLabel value="#{step2Controller.module.healthDate}" rendered="#{step2Controller.module.id ne null}" style="color: burlywood">
+					                <f:convertDateTime pattern="yyyy-MM-dd HH:mm" />
+					            </h:outputLabel>
+				     	</h:panelGrid>	        	
+		        	</div>
+		        	<div class="col-3">
+			            <h:outputLabel value="Employment Letter (sponsor) "/>
+				        <h:panelGrid columns="1" id="employment">
+				                <p:commandButton styleClass="orange-btn" value="#{step2Controller.employment.name}" ajax="false" rendered="#{step2Controller.employment.name ne null}" icon="fas fa-download">
+						            <p:fileDownload value="#{utilController.downloadFile(step2Controller.employment)}" />
+							    </p:commandButton>     
+					            <h:outputLabel value="#{step2Controller.module.employmentDate}" rendered="#{step2Controller.module.id ne null}" style="color: burlywood">
+					                <f:convertDateTime pattern="yyyy-MM-dd HH:mm" />
+					            </h:outputLabel>
+				     	</h:panelGrid>	        	
+		        	</div>
+		        	<div class="col-3">
+			            <h:outputLabel value="GRE/GMAT"/>
+				        <h:panelGrid columns="1" id="gre">
+				                <p:commandButton styleClass="orange-btn" value="#{step2Controller.gre.name}" ajax="false" rendered="#{step2Controller.gre.name ne null}" icon="pi pi-arrow-down">
+								        <p:fileDownload value="#{utilController.downloadFile(step2Controller.gre)}" />
+								</p:commandButton>    
+					            <h:outputLabel value="#{step2Controller.module.greDate}" rendered="#{step2Controller.module.id ne null}" style="color: burlywood">
+					                <f:convertDateTime pattern="yyyy-MM-dd HH:mm" />
+					            </h:outputLabel>
+				     	</h:panelGrid>	        	
+		        	</div>
+		        	<div class="col-3">
+			            <h:outputLabel value="Autobiography"/>
+				        <h:panelGrid columns="1" id="autobiography">
+				                <p:commandButton styleClass="orange-btn" value="#{step2Controller.autobiography.name}" ajax="false" rendered="#{step2Controller.autobiography.name ne null}" icon="fas fa-download">
+						            <p:fileDownload value="#{utilController.downloadFile(step2Controller.autobiography)}" />
+							    </p:commandButton>     
+					            <h:outputLabel value="#{step2Controller.module.autobiographyDate}" rendered="#{step2Controller.module.id ne null}" style="color: burlywood">
+					                <f:convertDateTime pattern="yyyy-MM-dd HH:mm" />
+					            </h:outputLabel>
+				     	</h:panelGrid>	        	
+		        	</div>
+		        	<div class="col-3">
+			            <h:outputLabel value="Financial Responsibility"/>
+				        <h:panelGrid columns="1" id="finance">
+				                <p:commandButton styleClass="orange-btn" value="#{step2Controller.financial.name}" ajax="false" rendered="#{step2Controller.financial.name ne null}" icon="fas fa-download">
+						            <p:fileDownload value="#{utilController.downloadFile(step2Controller.financial)}" />
+							    </p:commandButton>     
+					            <h:outputLabel value="#{step2Controller.module.financialDate}" rendered="#{step2Controller.module.id ne null}" style="color: burlywood">
+					                <f:convertDateTime pattern="yyyy-MM-dd HH:mm" />
+					            </h:outputLabel>
+				     	</h:panelGrid>	        	
+		        	</div>
+					<p:growl id="growl" showDetail="true"  /> 
+		        </div>
+		        <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+			        <p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes" icon="pi pi-check" />
+			        <p:commandButton value="No" type="button" styleClass="orange-btn" icon="pi pi-times" />
+			    </p:confirmDialog>
+		</div>
+      </h:form>
+	</ui:define>
+</ui:composition>

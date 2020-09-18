@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	template="/WEB-INF/templates/layouts/private.xhtml">
+
+	<ui:define name="content">
+	    <h:form id="form">
+		<div class="innerBlock">
+		    <div class="innerBlockHeader">
+		    	<ul>
+		    		<li>#{msgs.programsForm}</li>
+					<li><a href="#del"><i class="fas fa-times"></i></a></li>
+		    	</ul>
+		    </div>
+		    <div class="row">
+		        <div class="col-4">
+					<h:outputLabel for="country" value="#{msgs.country}" />
+				    <p:selectOneMenu ajax="false" id="country" value="#{programsController.program.country}" converter="cachedConverter"
+				        required="true" requiredMessage="#{msgs.country} - #{msgs.isReq}">
+				        <f:selectItem itemLabel="#{msgs.selectValue}"/>
+		                <f:selectItems value="#{programsController.countryList}" var="item" itemLabel="#{item.name}" itemValue="#{item}"/>   
+		                <p:ajax event="change" update="city state stateId"/>  
+		            </p:selectOneMenu>
+			        <h:message for="country" display="icon" style="color:red;" />	    	
+		    	</div>
+		    	<div class="col-4">
+					<h:outputLabel value="#{msgs.city}" />
+					<p:autoComplete  id="city" dropdown="true" size="74"
+						var="type" itemValue="#{type}" itemLabel="#{type.name}" 
+						value="#{programsController.program.city}" converter="cachedConverter"  
+						completeMethod="#{programsController.getCityList}" 
+						required="true" requiredMessage="#{msgs.city} - #{msgs.isReq}">
+					</p:autoComplete>
+					<h:message for="city" display="icon" style="color:red;" />		    	
+		    	</div>
+		    	<h:panelGroup layout="block" class="col-4" id="stateId">
+					<h:outputLabel value="#{msgs.state}" rendered="#{programsController.program.country.id eq 1027}"/>
+					<p:autoComplete  id="state" dropdown="true" size="74"
+						var="type" itemValue="#{type}" itemLabel="#{type.name}"  rendered="#{programsController.program.country.id eq 1027}"
+						value="#{programsController.program.state}" converter="cachedConverter"  
+						completeMethod="#{programsController.getStateList}" 
+						required="true" requiredMessage="#{msgs.state} - #{msgs.isReq}">
+					</p:autoComplete>
+					<h:message for="state" display="icon" style="color:red;" rendered="#{programsController.program.country.id eq 1027}" />		    	
+		    	</h:panelGroup>
+		    	<div class="col-4">
+					<h:outputLabel value="#{msgs.universityName}" />
+					<h:inputText id="universityName" value="#{programsController.program.universityName}" 
+					        required="true" requiredMessage="#{msgs.universityName} - #{msgs.isReq}"/>
+					<h:message for="universityName" display="icon" style="color:red;" />		    	
+		    	</div>
+		    	<div class="col-4">
+					<h:outputLabel value="#{msgs.universityShortName}" />
+					<h:inputText id="universityShortName" value="#{programsController.program.universityShortName}" 
+					         required="true" requiredMessage="#{msgs.universityShortName} - #{msgs.isReq}"/>
+					<h:message for="universityShortName" display="icon" style="color:red;" />		    	
+		    	</div>
+		    	<div class="col-2">
+					<h:outputText  value="#{msgs.toeflExist} : " />
+			        <p:selectBooleanCheckbox value="#{programsController.program.toeflExist}">
+			            <p:ajax update="toeflId"/>
+			        </p:selectBooleanCheckbox>		    	
+		    	</div>
+		    	<h:panelGroup layout="block" class="col-2" id="toeflId">
+					<h:outputLabel value="#{msgs.toefl}" rendered="#{programsController.program.toeflExist ==true}"/>
+					<h:inputText id="toefl" value="#{programsController.program.toefl}" rendered="#{programsController.program.toeflExist ==true}"
+					       required="true" requiredMessage="#{msgs.toefl} - #{msgs.isReq}" />
+					<h:message for="toefl" display="icon" style="color:red;" rendered="#{programsController.program.toeflExist ==true}"/>		    	
+		    	</h:panelGroup>
+		    	<div class="col-4">
+					<h:outputLabel value="#{msgs.program}" />
+					<p:selectCheckboxMenu  value="#{programsController.programs}"  required="true" requiredMessage="#{msgs.program} - #{msgs.isReq}" 
+							multiple="true" id="program"  converter="cachedConverter">
+						<f:selectItems value="#{programsController.programList}" var="entity" itemLabel="#{entity.name}" itemValue="#{entity}"/>
+			    	</p:selectCheckboxMenu>
+					<h:message for="program" display="icon" style="color:red;" />		    	
+		    	</div>
+		    	<div class="col-4">
+					<h:outputLabel value="#{msgs.major}" />
+					<p:selectCheckboxMenu  value="#{programsController.majors}" required="true" requiredMessage="#{msgs.major} - #{msgs.isReq}" 
+							multiple="true" id="major"  converter="cachedConverter">
+						<f:selectItems value="#{programsController.majorList}" var="entity" itemLabel="#{entity.name}" itemValue="#{entity}"/>
+			    	</p:selectCheckboxMenu>
+					<h:message for="major" display="icon" style="color:red;" />		    	
+		    	</div>
+		    	<div class="col-4">
+					<h:outputLabel value="#{msgs.howToApply}" />
+					<p:selectCheckboxMenu  value="#{programsController.contacts}" required="true" requiredMessage="#{msgs.howToApply} - #{msgs.isReq}" 
+							multiple="true" id="howToApply"  converter="cachedConverter">
+						<f:selectItems value="#{programsController.contactsList}" var="entity" itemLabel="#{entity.name}" itemValue="#{entity}"/>
+			    	</p:selectCheckboxMenu>
+					<h:message for="howToApply" display="icon" style="color:red;" />		    	
+		    	</div>
+		    	<div class="col-4">
+					<h:outputLabel value="#{msgs.tuitionFee}" />
+					<h:inputText id="tuitionFee" value="#{programsController.program.tuitionFee}" required="true" requiredMessage="#{msgs.tuitionFee} - #{msgs.isReq}"></h:inputText>
+					<h:message for="tuitionFee" display="icon" style="color:red;" />		    	
+		    	</div>
+		    	<div class="col-4">
+					<h:outputLabel for="currency" value="#{msgs.currency}" />	 
+				    <p:selectOneMenu ajax="false" id="republics" value="#{programsController.program.currency}" converter="enumConverter"
+				        required="true" requiredMessage="#{msgs.currency} - #{msgs.isReq}">
+				        <f:selectItem itemLabel="" itemValue="" />
+		                <f:selectItems value="#{programsController.currencyTypeList}" var="item" itemLabel="#{enums[item]}" itemValue="#{item}"/>     
+		            </p:selectOneMenu>
+		            <h:message for="currency" display="icon" style="color:red;" />			    	
+		    	</div>
+		    	<div class="col-4">
+					<h:outputLabel value="#{msgs.bankStatement}" />
+					<h:inputText id="bankStatement" value="#{programsController.program.bankStatement}" />
+					<h:message for="bankStatement" display="icon" style="color:red;" />		    	
+		    	</div>
+		    	<div class="col-4">
+					<h:outputLabel value="#{msgs.age}" />
+					<h:inputText id="age" value="#{programsController.program.age}" />
+					<h:message for="age" display="icon" style="color:red;" />		    	
+		    	</div>
+		    	<div class="col-4">
+					<h:outputLabel value="#{msgs.applicationFee}" />
+					<h:inputText id="applicationFee" value="#{programsController.program.applicationFee}" />
+					<h:message for="applicationFee" display="icon" style="color:red;" />		    	
+		    	</div>
+		    	<div class="col-4">
+					<h:outputLabel value="#{msgs.website}" />
+					<h:inputText id="website" value="#{programsController.program.website}" />
+					<h:message for="website" display="icon" style="color:red;" />		    	
+		    	</div>
+		    	<div class="col-4">
+					<h:outputLabel value="#{msgs.deadline1}" for="deadline1"/>
+	                 <p:calendar id="deadline1" value="#{programsController.program.deadline}"  pattern="yyyy-MM-dd" 
+	                 required="true" requiredMessage="#{msgs.deadline1} - #{msgs.isReq}" />
+	                <h:message for="deadline1" display="icon" style="color:red;" />
+		    	</div> 
+		    	<div class="col-4">
+					<h:outputLabel value="#{msgs.deadline2}" for="deadline2"/>
+	                 <p:calendar id="deadline2" value="#{programsController.program.deadline2}"  pattern="yyyy-MM-dd" 
+	                 required="true" requiredMessage="#{msgs.deadline1} - #{msgs.isReq}" />
+	                <h:message for="deadline2" display="icon" style="color:red;" />
+		    	</div>
+		    	<div class="col-4">
+					<h:outputLabel value="#{msgs.note}" />
+					<h:inputText id="note" value="#{programsController.program.note}" />
+					<h:message for="note" display="icon" style="color:red;" />		    	
+		    	</div>
+		    	<div class="col submit">
+					<p:commandButton ajax="false" value="#{msgs.save}" action="#{programsController.save()}"/>		    	
+		    	</div>
+		    	<div class="col submit">
+					<p:commandButton ajax="false" styleClass="orange-btn" value="#{msgs.cancel}" action="#{programsController.cancel()}" immediate="true"/>		    		
+		    	</div>		    	
+		    </div>
+		</div>
+	</h:form>
+	</ui:define>
+</ui:composition>

@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	template="/WEB-INF/templates/layouts/private.xhtml">
+	<ui:define name="main-content-left">
+		<ui:include src="../../../WEB-INF/templates/private/mainleftcontent.xhtml" />		
+	</ui:define>	
+	<ui:define name="content">
+		<div class="innerBlock">
+		    <div class="innerBlockHeader">
+		    	<ul>
+		    		<li>Reason</li>
+		    		<li><a><i class="fas fa-user"></i></a></li>
+					<li>#{step16Controller.module.person.fullname}</li>
+		    	</ul>
+		    </div>		
+		    <h:form id="form">
+		        <div class="row">
+					<div class="col">
+						<h:outputLabel value="#{msgs.reason}" />
+						<h:inputTextarea cols="10" rows="20" id="reason" value="#{step16Controller.module.reason}" 
+						  disabled="true" required="true" requiredMessage="#{msgs.reason} - #{msgs.isReq}"/>
+						<h:message for="reason" display="icon" style="color:red;" />					
+					</div>
+					<div class="col">
+			            <h:outputLabel value="#{msgs.dateCreated}" rendered="#{step16Controller.module.dateCreated ne null}"/>
+			            <h:outputLabel value="#{step16Controller.module.dateCreated}" rendered="#{step16Controller.module.dateCreated ne null}">
+			                <f:convertDateTime pattern="yyyy-MM-dd HH:mm" />
+			            </h:outputLabel>
+		            </div>
+		            <div class="col">
+			            <h:outputLabel value="#{msgs.filledBy}" rendered="#{step16Controller.module.dateCreated ne null}"/>
+			            <h:outputLabel value="#{step16Controller.module.user.person.fullname}" rendered="#{step16Controller.module.dateCreated ne null}"/>
+		            </div>
+		        </div>
+	          <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+			        <p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes" icon="pi pi-check" />
+			        <p:commandButton value="No" type="button" styleClass="orange-btn" icon="pi pi-times" />
+			    </p:confirmDialog> 
+		 </h:form>
+		</div>
+	</ui:define>
+</ui:composition>

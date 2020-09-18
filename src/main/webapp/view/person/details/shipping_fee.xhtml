@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	template="/WEB-INF/templates/layouts/private.xhtml">
+	<ui:define name="main-content-left">
+		<ui:include src="../../../WEB-INF/templates/private/mainleftcontent.xhtml" />		
+	</ui:define>	
+	<ui:define name="content">
+		<div class="innerBlock">
+		    <div class="innerBlockHeader">
+		    	<ul>
+		    		<li>Shipping Fee</li>
+		    		<li><a><i class="fas fa-user"></i></a></li>
+					<li>#{step6Controller.module.person.fullname}</li>
+		    	</ul>
+		    </div>		
+		    <h:form id="form">
+		        <h:panelGroup layout="block" class="row" rendered="#{step6Controller.module.status ne 'COMPLETED'}">
+		            <div class="col">
+		                <h:outputLabel for="accountType" value="#{msgs.accountType}" />	 
+					    <p:selectOneMenu ajax="false" id="accountType" value="#{step6Controller.shippingFee.accountType}" converter="enumConverter"
+					        required="true" requiredMessage="#{msgs.accountType} - #{msgs.isReq}">
+					        <f:selectItem itemLabel="" itemValue="" />
+			                <f:selectItems value="#{step6Controller.accountTypeList}" var="item" itemLabel="#{enums[item]}" itemValue="#{item}"/>     
+			            </p:selectOneMenu>
+			            <h:message for="accountType" display="icon" style="color:red;" />
+			        </div> 
+		        	<div class="col">
+			            <h:outputLabel value="#{msgs.note}" />
+						<h:inputText id="note" value="#{step6Controller.shippingFee.note}" required="true" requiredMessage="#{msgs.note} - #{msgs.isReq}"/>
+						<h:message for="note" display="icon" style="color:red;" />		        	
+					</div>
+					<div class="col">
+						<h:outputLabel value="#{msgs.amount}" />
+						<h:inputText id="amount" value="#{step6Controller.shippingFee.amount}" required="true" requiredMessage="#{msgs.amount} - #{msgs.isReq}"/>
+						<h:message for="amount" display="icon" style="color:red;" />					
+					</div>
+					<div class="col">
+			            <h:outputLabel for="currency" value="#{msgs.currency}" />	 
+					    <p:selectOneMenu ajax="false" id="republics" value="#{step6Controller.shippingFee.currencyType}" converter="enumConverter"
+					        required="true" requiredMessage="#{msgs.currency} - #{msgs.isReq}">
+					        <f:selectItem itemLabel="" itemValue="" />
+			                <f:selectItems value="#{step6Controller.currencyTypeList}" var="item" itemLabel="#{enums[item]}" itemValue="#{item}"/>     
+			            </p:selectOneMenu>
+			            <h:message for="currency" display="icon" style="color:red;" />		        	
+		        	</div>
+		        	
+					<div class="col submit">
+						<p:commandButton ajax="false" styleClass="add-btn" value="#{msgs.add}" actionListener="#{step6Controller.save()}" />
+					</div>
+					<h:panelGroup layout="block" class="col button" rendered="#{step6Controller.module.status eq 'FILLED'}">
+						<p:commandButton immediate="true" styleClass="green-btn" id="clearBtn" update="@form formLeftSide" action="#{step6Controller.complete()}" value="#{msgs.approve}" >
+						   <p:confirm header="Confirmation required ..." message="Do you really want to complete this process?" icon="pi pi-exclamation-triangle" />
+						</p:commandButton>
+						<p:growl id="growl" showDetail="true" sticky="true" /> 
+					</h:panelGroup>	
+		        </h:panelGroup>
+				         
+			     <p:dataTable id="detailTable" var="entity" value="#{step6Controller.list}" 
+						paginator="false" rowIndexVar="index" lazy="false" 
+						emptyMessage="#{msgs.noRecordsFound}" 
+						style="margin-top:0px"
+						sortOrder="DESCENDING"
+						styleClass="borderless"	>       
+
+			         <p:column headerText="#{msgs.number}" width="50">
+			        	<h:outputText value="#{index+1}" />
+			         </p:column> 
+			         
+			         <p:column headerText="#{msgs.accountType}" >
+			        	<h:outputText value="#{enums[entity.accountType]}" />
+			         </p:column>
+			         
+			         <p:column headerText="#{msgs.note}" >
+			        	<h:outputText value="#{entity.note}" />
+			         </p:column>
+			         
+			         <p:column headerText="#{msgs.amount}" >
+			        	<h:outputText value="#{entity.amount}" />
+			         </p:column>
+			         
+			         <p:column headerText="#{msgs.currency}" >
+			        	<h:outputText value="#{enums[entity.currencyType]}" />
+			         </p:column>
+			         
+			         <p:column headerText="#{msgs.dateCreated}" >
+			        	<h:outputText value="#{entity.dateCreated}" >
+				        	<f:convertDateTime pattern="yyyy-MM-dd HH:mm" />
+			        	</h:outputText>
+			         </p:column>
+			         
+			         <p:column headerText="#{msgs.filledBy}" >
+			        	<h:outputText value="#{entity.user.person.fullname}" />
+			         </p:column>
+			         
+			         <p:column width="300" >
+			              <p:commandButton immediate="true" action="#{step6Controller.editData(entity)}" 
+				 	     	update="@form form" value="#{msgs.edit}" icon="fa fa-edit" /> 
+				      	  <p:commandButton immediate="true" action="#{step6Controller.delete(entity)}" styleClass="red-btn"
+				 	     	update="detailTable" value="#{msgs.delete}" icon="fa fa-trash" /> 
+			         </p:column>
+
+		         </p:dataTable>
+		         
+		         <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+			        <p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes" icon="pi pi-check" />
+			        <p:commandButton value="No" type="button" styleClass="orange-btn" icon="pi pi-times" />
+			    </p:confirmDialog>
+		 </h:form>
+		</div>
+	</ui:define>
+</ui:composition>

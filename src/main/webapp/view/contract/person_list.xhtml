@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	template="/WEB-INF/templates/layouts/private.xhtml">
+	<ui:define name="content">
+		<h:form>
+		<div class="innerBlock">
+			<div class="row">
+			    <div class="col">
+					<h:outputLabel value="#{msgs.pin}" />
+					<p:inputText id="pin" value="#{personList.pin}" title="text #{msgs.pin}" />
+					<p:tooltip id="nameTooltip1" for="pin" showEvent="focus" hideEvent="blur" />
+				</div>
+				<div class="col">
+					<h:outputLabel value="#{msgs.fullName}" />
+					<p:inputText id="lastname" value="#{contractList.fullName}" title="text #{msgs.fullName}" />
+					<p:tooltip id="nameTooltip2" for="lastname" showEvent="focus" hideEvent="blur" />
+				</div>
+				<div class="col">
+			        <h:outputLabel for="countries" value="#{msgs.countries}" />	
+				    <p:selectCheckboxMenu id="countries" value="#{contractList.countryList}"  multiple="true"
+			                              filter="true" filterMatchMode="startsWith" converter="cachedConverter">
+			            <f:selectItems value="#{contractController.getDict(1)}" var="entity" itemLabel="#{entity.name}" itemValue="#{entity}" />
+			        </p:selectCheckboxMenu>
+				</div>
+				<div class="col button">
+					<p:commandButton ajax="false" id="applyBtn" action="#{contractList.filterData()}" value="#{msgs.search}" />
+				</div>
+				<div class="col button">
+					<p:commandButton ajax="false" styleClass="orange-btn" id="clearBtn" action="#{contractList.clearData()}" value="#{msgs.clear}" />
+				</div>				
+			</div>
+			
+			<p:dataTable var="entity" value="#{contractList.model}" paginator="true" rows="10" 
+			    rowIndexVar="index" lazy="true" emptyMessage="#{msgs.noRecordsFound}" 
+				sortOrder="DESCENDING" selectionMode="single"  
+				rowsPerPageTemplate="10,20,30,40,50" paginatorPosition="bottom" pageLinks="10"
+				currentPageReportTemplate="#{msgs.showPaymentNumbers}" 
+	            paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {CurrentPageReport} {RowsPerPageDropdown}">
+		 		<p:ajax event="rowSelect" listener="#{contractController.onRowSelect}" disabled="#{not roleController.mobile}"  />
+				<p:ajax event="rowDblselect" listener="#{contractController.onRowSelect}"   />
+				<p:ajax event="rowToggle" listener="#{personController.onRowToggle}" />
+				<f:facet name="header">
+			         Students : Study Abroad Center
+			    </f:facet>
+				<p:column width="50">
+		            <p:rowToggler /> 
+		        </p:column>
+		        <p:column headerText="#{msgs.number}" width="100">
+		        	<h:outputText value="#{index+1}" />
+		         </p:column>
+		        <p:column headerText="#{msgs.fullName}" >
+		        	<h:outputText value="#{entity.fullname}" />
+		        </p:column>
+		        <p:column headerText="#{msgs.countries}" >
+		        	<p:dataList value="#{entity.countries}" var="car" type="ordered">
+				        #{car.name}
+				    </p:dataList>
+		        </p:column>
+		        <p:column headerText="#{msgs.totalPayment}" style="text-align:center">
+		        	<h:outputText value="#{entity.contract}" >
+		        	   <f:convertNumber type="number" groupingUsed="true" minFractionDigits="2"/>
+					</h:outputText>
+		        </p:column>
+		        <p:column headerText="#{msgs.payed}" style="text-align:center">	
+					<h:outputText value="#{contractController.getDollarPayment(entity)} $" style="color:green">
+		        	    <f:convertNumber type="number" groupingUsed="true" minFractionDigits="2"/>
+					</h:outputText>
+		        </p:column>
+		        <p:column headerText="#{msgs.unpaid}" style="text-align:center">	
+					<h:outputText value="#{entity.contract-contractController.getDollarPayment(entity)} $" >
+		        	    <f:convertNumber type="number" groupingUsed="true" minFractionDigits="2"/>
+					</h:outputText>
+		        </p:column>
+		        <p:column headerText="#{msgs.appFee}" style="text-align:center">
+		        	<h:outputText value="#{contractController.getAppFee(entity)}" >
+		        	    <f:convertNumber type="number" groupingUsed="true" minFractionDigits="2"/>
+					</h:outputText>
+		        </p:column>
+		         <p:column headerText="#{msgs.shippingFee}" style="text-align:center">
+		        	<h:outputText value="#{contractController.getShippingFee(entity)}" >
+		        	    <f:convertNumber type="number" groupingUsed="true" minFractionDigits="2"/>
+					</h:outputText>
+		        </p:column>
+		        
+		        <p:column headerText="Contract Signed" width="150">
+	          	   <h:panelGroup  layout="block" rendered="#{entity.deal!=null and entity.deal==false}">
+						<span style="color:#0b4269"><i class="fas fa-plus"></i></span>
+	          	   </h:panelGroup>
+	          	   <h:panelGroup  layout="block" rendered="#{entity.deal!=null and entity.deal==true}">
+						<span style="color:#4e9a06"><i class="fas fa-circle"></i></span>
+	          	   </h:panelGroup>
+		        </p:column>
+		        
+		        <p:rowExpansion >
+		           <p:dataTable var="item" value="#{personController.getPaymentsList(entity)}" id="tableDetail"
+		           styleClass="subTableStyle" lazy="true" rowIndexVar="index">
+  				 			 
+			           <p:column headerText="#{msgs.number}" width="50">
+			        	<h:outputText value="#{index+1}" />
+			         </p:column> 
+			         
+			         <p:column headerText="#{msgs.accountType}" >
+			        	<h:outputText value="#{enums[item.accountType]}" />
+			         </p:column>
+			         
+			         <p:column headerText="#{msgs.amount}" >
+			        	<h:outputText value="#{item.amount}" />
+			         </p:column>
+			         
+			         <p:column headerText="#{msgs.currency}" >
+			        	<h:outputText value="#{enums[item.currencyType]}" />
+			         </p:column>
+			         
+			         <p:column headerText="#{msgs.note}" >
+			        	<h:outputText value="#{item.note}" />
+			         </p:column>
+			         
+			         <p:column headerText="#{msgs.dateCreated}" >
+			        	<h:outputText value="#{item.dateCreated}" >
+				        	<f:convertDateTime pattern="yyyy-MM-dd HH:mm" />
+			        	</h:outputText>
+			         </p:column>
+			                  
+			    	</p:dataTable>
+		 
+		        </p:rowExpansion>
+		        
+		        <p:columnGroup type="footer">
+		         <p:column colspan="4" style="text-align:right"   />
+		            <p:column >
+				    	<f:facet name="footer">
+				    	    <h:outputText value="#{msgs.totalPayment} :"/>
+					        <h:outputText value="#{contractList.contractSum}">
+					        	<f:convertNumber type="number" groupingUsed="true" minFractionDigits="2"/>
+					        </h:outputText>
+					    </f:facet>
+				    </p:column>
+				    <p:column >
+				    	<f:facet name="footer">
+				    	    <h:outputText value="#{msgs.totalPaid} :"/>
+					        <h:outputText value="#{contractController.totalDollarPayment}">
+					        	<f:convertNumber type="number" groupingUsed="true" minFractionDigits="2"/>
+					        </h:outputText>
+					    </f:facet>
+				    </p:column>
+				    <p:column >
+				    	<f:facet name="footer">
+				    	    <h:outputText value="#{msgs.totalUnPaid} :"/>
+					        <h:outputText value="#{contractList.contractSum-contractController.totalDollarPayment}">
+					        	<f:convertNumber type="number" groupingUsed="true" minFractionDigits="2"/>
+					        </h:outputText>
+					    </f:facet>
+				    </p:column>
+				    <p:column >
+				    	<f:facet name="footer">
+				    	    <h:outputText value="#{msgs.totalAppFee} :"/>
+					        <h:outputText value="#{contractController.totalAppFee}">
+					        	<f:convertNumber type="number" groupingUsed="true" minFractionDigits="2"/>
+					        </h:outputText>
+					    </f:facet>
+				    </p:column>
+				    <p:column >
+				    	<f:facet name="footer">
+				    	    <h:outputText value="#{msgs.totalShippingFee} :"/>
+					        <h:outputText value="#{contractController.totalShippingFee}">
+					        	<f:convertNumber type="number" groupingUsed="true" minFractionDigits="2"/>
+					        </h:outputText>
+					    </f:facet>
+				    </p:column>
+	                <p:column >
+				    </p:column>
+		        </p:columnGroup>
+		        
+	        </p:dataTable>
+	      </div>
+		</h:form>
+	</ui:define>
+</ui:composition>

@@ -1,0 +1,205 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	template="/WEB-INF/templates/layouts/private.xhtml">
+	<ui:define name="main-content-left">
+		<ui:include src="../../../WEB-INF/templates/private/mainleftcontent.xhtml" />		
+	</ui:define>	
+	<ui:define name="content">
+	  <h:form>
+		<div class="innerBlock">
+			<div class="innerBlockHeader">
+		    	<ul>
+		    		<li>Visa Document</li>
+					<li><a><i class="fas fa-user"></i></a></li>
+					<li>#{step12Controller.module.person.fullname}</li>
+		    	</ul>
+		    </div>
+		   
+		        <div class="row">
+		            <div class="col-3">
+		                <h:outputLabel value="Passport copy" style="color: #6aff6a;"/>
+		                <p:selectBooleanCheckbox value="#{step12Controller.module.passport}"/>
+		            </div>
+		            <div class="col-3">
+		                <h:outputLabel value="I-20 " style="color: #6aff6a;"/>
+		                <p:selectBooleanCheckbox value="#{step12Controller.module.i20}"/>
+		            </div>
+		            <div class="col-3">
+		                <h:outputLabel value="DS-160 Confirmation" style="color: #6aff6a;"/>
+		                <p:selectBooleanCheckbox value="#{step12Controller.module.ds160}"/>
+		            </div>
+		            <div class="col-3">
+		                <h:outputLabel value="High School Diploma" style="color: #6aff6a;"/>
+		                <p:selectBooleanCheckbox value="#{step12Controller.module.schoolDiploma}"/>
+		            </div>
+		            <div class="col-3">
+		                <h:outputLabel value="High School Transcript" style="color: #6aff6a;"/>
+		                <p:selectBooleanCheckbox value="#{step12Controller.module.schoolTranscript}"/>
+		            </div>
+		            <div class="col-3">
+		                <h:outputLabel value="Visa Fee ($)" style="color: #6aff6a;"/>
+		                <p:selectBooleanCheckbox value="#{step12Controller.module.visaFee}"/>
+		            </div>
+		            <div class="col-3">
+		                <h:outputLabel value="Photo 5x5 (2pcs)" style="color: #6aff6a;"/>
+		                <p:selectBooleanCheckbox value="#{step12Controller.module.photo}"/>
+		            </div>
+		            <div class="col-3">
+		                <h:outputLabel value="Official Test Results (TOEFL/SAT)" />
+		                <p:selectBooleanCheckbox value="#{step12Controller.module.toefl}"/>
+		            </div>
+		            <div class="col-3">
+		                <h:outputLabel value="Parents Passport" />
+		                <p:selectBooleanCheckbox value="#{step12Controller.module.parents}"/>
+		            </div>
+		        	<div class="col-3">
+				        <h:outputLabel value="Appointment Letter" style="color: #6aff6a;"/>
+				        <h:panelGrid columns="1" id="passport">
+				    		
+								<p:fileUpload mode="advanced" fileUploadListener="#{step12Controller.handleFileUploadAppointment}"
+				                       update="messages1 passport" sizeLimit="10000000" fileLimit="1" auto="true"
+				                       fileLimitMessage="#{msgs.fileLimitMessage}" dragDropSupport="true"
+				                       uploadLabel="#{msgs.upload}" cancelLabel="#{msgs.cancel}" label="#{msgs.choose}"
+				                       rendered="#{step12Controller.module.status ne 'COMPLETED'}" />
+				         		<p:growl id="messages1" showDetail="true"/>  
+				         		
+				         		<h:panelGrid columns="2">
+				         		  <p:commandButton styleClass="orange-btn" value="#{step12Controller.appointment.name}" ajax="false" rendered="#{step12Controller.appointment.name ne null}" icon="fas fa-download">
+								        <p:fileDownload value="#{utilController.downloadFile(step12Controller.appointment)}" />
+								  </p:commandButton>
+					              <h:commandLink styleClass="red-btn" action="#{step12Controller.removeAppointment()}" immediate="true" alt="#{msgs.delete}" rendered="#{step12Controller.appointment.name ne null and (step12Controller.module.status eq 'FILLED' or step12Controller.module.status eq 'NEW')}"> <i class="fa fa-lg fa-trash"/> </h:commandLink>
+					            </h:panelGrid>
+				     	</h:panelGrid>	        	
+		        	</div>
+		        	<div class="col-3">
+			            <h:outputLabel value="SEVIS Fee Payment Receipt" style="color: #6aff6a;"/>
+				        <h:panelGrid columns="1" id="picture">
+				    		
+								<p:fileUpload mode="advanced" fileUploadListener="#{step12Controller.handleFileUploadSevisFee}"
+				                       update="messages2 picture" sizeLimit="10000000" fileLimit="1" auto="true"
+				                       fileLimitMessage="#{msgs.fileLimitMessage}" dragDropSupport="true"
+				                       uploadLabel="#{msgs.upload}" cancelLabel="#{msgs.cancel}" label="#{msgs.choose}"
+				                       rendered="#{step12Controller.module.status ne 'COMPLETED'}" />
+				         		<p:growl id="messages2" showDetail="true"/>  
+				         		
+				         		<h:panelGrid columns="2">
+				                    <p:commandButton styleClass="orange-btn" value="#{step12Controller.sevisFee.name}" ajax="false" rendered="#{step12Controller.sevisFee.name ne null}" icon="fas fa-download">
+								        <p:fileDownload value="#{utilController.downloadFile(step12Controller.sevisFee)}" />
+								    </p:commandButton>
+						            <h:commandLink action="#{step12Controller.removeSevisFee()}" immediate="true" alt="#{msgs.delete}" rendered="#{step12Controller.sevisFee.name ne null and (step12Controller.module.status eq 'FILLED' or step12Controller.module.status eq 'NEW')}"> <i class="fa fa-lg fa-trash"/> </h:commandLink>
+					            </h:panelGrid>
+				     	</h:panelGrid>	        	
+		        	</div>
+		        	<div class="col-3">
+			            <h:outputLabel value="Bank Statement (Renewed)" style="color: #6aff6a;"/>
+				        <h:panelGrid columns="1" id="bank">
+				    		
+								<p:fileUpload mode="advanced" fileUploadListener="#{step12Controller.handleFileUploadBankStatement}"
+				                       update="messages3 bank" sizeLimit="10000000" fileLimit="1" auto="true"
+				                       fileLimitMessage="#{msgs.fileLimitMessage}" dragDropSupport="true"
+				                       uploadLabel="#{msgs.upload}" cancelLabel="#{msgs.cancel}" label="#{msgs.choose}"
+				                       rendered="#{step12Controller.module.status ne 'COMPLETED'}" />
+				         		<p:growl id="messages3" showDetail="true"/>  
+				         		<h:panelGrid columns="2">
+				                    <p:commandButton styleClass="orange-btn" value="#{step12Controller.bankStatement.name}" ajax="false" rendered="#{step12Controller.bankStatement.name ne null}" icon="fas fa-download">
+							            <p:fileDownload value="#{utilController.downloadFile(step12Controller.bankStatement)}" />
+								    </p:commandButton>
+						            <h:commandLink action="#{step12Controller.removeBankStatement()}" immediate="true" alt="#{msgs.delete}" rendered="#{step12Controller.bankStatement.name ne null and (step12Controller.module.status eq 'FILLED' or step12Controller.module.status eq 'NEW')}"> <i class="fa fa-lg fa-trash"/> </h:commandLink>
+					            </h:panelGrid>
+				     	</h:panelGrid>	        	
+		        	</div>
+		        	<div class="col-3">
+			            <h:outputLabel value="Sponsors Employment Letter" style="color: #6aff6a;"/>
+				        <h:panelGrid columns="1" id="parents">
+				    		
+								<p:fileUpload mode="advanced" fileUploadListener="#{step12Controller.handleFileUploadSponsors}"
+				                       update="messages4 parents" sizeLimit="10000000" fileLimit="1" auto="true"
+				                       fileLimitMessage="#{msgs.fileLimitMessage}" dragDropSupport="true"
+				                       uploadLabel="#{msgs.upload}" cancelLabel="#{msgs.cancel}" label="#{msgs.choose}" 
+				                       rendered="#{step12Controller.module.status ne 'COMPLETED'}" />
+				         		<p:growl id="messages4" showDetail="true"/>  
+				         		<h:panelGrid columns="2">
+					                <p:commandButton styleClass="orange-btn" value="#{step12Controller.sponsors.name}" ajax="false" rendered="#{step12Controller.sponsors.name ne null}" icon="fas fa-download">
+							            <p:fileDownload value="#{utilController.downloadFile(step12Controller.sponsors)}" />
+								    </p:commandButton>    
+						            <h:commandLink action="#{step12Controller.removeSponsors()}" immediate="true" alt="#{msgs.delete}" rendered="#{step12Controller.sponsors.name ne null and (step12Controller.module.status eq 'FILLED' or step12Controller.module.status eq 'NEW')}"> <i class="fa fa-lg fa-trash"/> </h:commandLink>
+					             </h:panelGrid>
+				     	</h:panelGrid>	        	
+		        	</div>
+		        	<div class="col-3">
+			            <h:outputLabel value="Certificates" />
+				        <h:panelGrid columns="1" id="transcript">
+				    		
+								<p:fileUpload mode="advanced" fileUploadListener="#{step12Controller.handleFileUploadCertificate}"
+				                       update="messages5 transcript" sizeLimit="10000000" fileLimit="1" auto="true"
+				                       fileLimitMessage="#{msgs.fileLimitMessage}" dragDropSupport="true"
+				                       uploadLabel="#{msgs.upload}" cancelLabel="#{msgs.cancel}" label="#{msgs.choose}" 
+				                       rendered="#{step12Controller.module.status ne 'COMPLETED'}" />
+				         		<p:growl id="messages5" showDetail="true"/>  
+				         		<h:panelGrid columns="2">
+					                <p:commandButton styleClass="orange-btn" value="#{step12Controller.certificate.name}" ajax="false" rendered="#{step12Controller.certificate.name ne null}" icon="fas fa-download">
+							            <p:fileDownload value="#{utilController.downloadFile(step12Controller.certificate)}" />
+								    </p:commandButton>     
+						            <h:commandLink action="#{step12Controller.removeCertificate()}" immediate="true" alt="#{msgs.delete}" rendered="#{step12Controller.certificate.name ne null and (step12Controller.module.status eq 'FILLED' or step12Controller.module.status eq 'NEW')}"> <i class="fa fa-lg fa-trash"/> </h:commandLink>
+					            </h:panelGrid>
+				     	</h:panelGrid>	        	
+		        	</div>
+		        	<div class="col-3">
+			            <h:outputLabel value="Ticket Booking" />
+				        <h:panelGrid columns="1" id="school">
+				    		
+								<p:fileUpload mode="advanced" fileUploadListener="#{step12Controller.handleFileUploadTicket}"
+				                       update="messages6 school" sizeLimit="10000000" fileLimit="1" auto="true"
+				                       fileLimitMessage="#{msgs.fileLimitMessage}" dragDropSupport="true"
+				                       uploadLabel="#{msgs.upload}" cancelLabel="#{msgs.cancel}" label="#{msgs.choose}" 
+				                       rendered="#{step12Controller.module.status ne 'COMPLETED'}" />
+				         		<p:growl id="messages6" showDetail="true"/>  
+				         		<h:panelGrid columns="2">
+					                <p:commandButton styleClass="orange-btn" value="#{step12Controller.ticket.name}" ajax="false" rendered="#{step12Controller.ticket.name ne null}" icon="fas fa-download">
+							            <p:fileDownload value="#{utilController.downloadFile(step12Controller.ticket)}" />
+								    </p:commandButton>        
+						            <h:commandLink action="#{step12Controller.removeTicket()}" immediate="true" alt="#{msgs.delete}" rendered="#{step12Controller.ticket.name ne null and (step12Controller.module.status eq 'FILLED' or step12Controller.module.status eq 'NEW')}"> <i class="fa fa-lg fa-trash"/> </h:commandLink>
+					             </h:panelGrid>
+				     	</h:panelGrid>	        	
+		        	</div>
+		        	<div class="col-3">
+			            <h:outputLabel value="Real Estate"  />
+				        <h:panelGrid columns="1" id="university">
+				    		
+								<p:fileUpload mode="advanced" fileUploadListener="#{step12Controller.handleFileUploadRealEstate}"
+				                       update="messages7 university" sizeLimit="10000000" fileLimit="1" auto="true"
+				                       fileLimitMessage="#{msgs.fileLimitMessage}" dragDropSupport="true"
+				                       uploadLabel="#{msgs.upload}" cancelLabel="#{msgs.cancel}" label="#{msgs.choose}" 
+				                       rendered="#{step12Controller.module.status ne 'COMPLETED'}" />
+				         		<p:growl id="messages7" showDetail="true"/>  
+				         		<h:panelGrid columns="2">
+					                <p:commandButton styleClass="orange-btn" value="#{step12Controller.realEstate.name}" ajax="false" rendered="#{step12Controller.realEstate.name ne null}" icon="fas fa-download">
+							            <p:fileDownload value="#{utilController.downloadFile(step12Controller.realEstate)}" />
+								    </p:commandButton>     
+						            <h:commandLink action="#{step12Controller.removeRealEstate()}" immediate="true" alt="#{msgs.delete}" rendered="#{step12Controller.realEstate.name ne null and (step12Controller.module.status eq 'FILLED' or step12Controller.module.status eq 'NEW')}"> <i class="fa fa-lg fa-trash"/> </h:commandLink>
+					             </h:panelGrid>
+				     	</h:panelGrid>	        	
+		        	</div>
+		         
+		        	<h:panelGroup layout="block" class="col submit" rendered="#{step12Controller.module.status ne 'COMPLETED'}">
+						<p:commandButton ajax="false" styleClass="add-btn" value="#{msgs.save}" actionListener="#{step12Controller.save()}" />
+					</h:panelGroup>
+					<h:panelGroup layout="block" class="col button" rendered="#{step12Controller.module.status eq 'FILLED'}">
+						<p:commandButton  styleClass="green-btn" id="clearBtn1" update="@form formLeftSide growl" action="#{step12Controller.complete()}" value="#{msgs.approve}" >
+						   <p:confirm header="Confirmation required ..." message="Do you really want to complete this process?" icon="pi pi-exclamation-triangle" />
+						</p:commandButton>
+					</h:panelGroup>						
+					<p:growl id="growl" showDetail="true"  /> 
+		        </div>
+		        <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+			        <p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes" icon="pi pi-check" />
+			        <p:commandButton value="No" type="button" styleClass="orange-btn" icon="pi pi-times" />
+			    </p:confirmDialog>
+		</div>
+      </h:form>
+	</ui:define>
+</ui:composition>

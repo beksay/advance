@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	template="/WEB-INF/templates/layouts/private.xhtml">
+	<ui:define name="content">
+	    <h:form id="form">
+		<div class="innerBlock">
+		    <div class="innerBlockHeader">
+		    	<ul>
+		    		<li>#{msgs.parentsInfo}</li>
+					<li><a href="#del"><i class="fas fa-times"></i></a></li>
+		    	</ul>
+		    </div>
+		    
+		    
+		    <h:panelGrid columns="2">
+			
+			    <h:panelGrid columns="2"  style="margin-left: 40px; margin-top:20px;">
+					<h:outputText  value="#{msgs.dontHaveFather} : " />
+					<p:selectBooleanCheckbox value="#{conversationPerson.dontHaveFather}">
+			            <p:ajax update="father"/>
+			        </p:selectBooleanCheckbox>
+		        </h:panelGrid>
+		        <h:panelGrid columns="2" style="margin-left: 40px; margin-top:20px;">
+					<h:outputText  value="#{msgs.dontHaveMother} : " />
+			        <p:selectBooleanCheckbox value="#{conversationPerson.dontHaveMother}">
+			            <p:ajax update="mother"/>
+			        </p:selectBooleanCheckbox>
+				</h:panelGrid>
+
+				<h:panelGroup  layout="block" id="father" style="width:400px; margin-left:20px; margin-top:20px;">
+					<h3 >#{msgs.father} </h3> <br/>	
+					<h:panelGrid columns="3" styleClass="form-table" style="float:left; " rendered="#{conversationPerson.dontHaveFather ne true}">	
+					
+					    <h:outputLabel value="#{msgs.fullName}" />
+						<h:inputText id="fullName" 
+							value="#{conversationPerson.father.name}" required="true"
+							requiredMessage="#{msgs.fullName} - #{msgs.isReq}">
+						</h:inputText>
+						<h:message for="fullName" display="icon" style="color:red;" />
+						
+						<h:outputLabel value="#{msgs.birthDate}" for="birthDate"/>
+		                <p:calendar id="birthDate" value="#{conversationPerson.father.birthDate}" 
+		                 yearRange="1950:2020" navigator="true" pattern="yyyy-MM-dd" 
+		                 required="true" requiredMessage="#{msgs.birthDate} - #{msgs.isReq}" />
+		                <h:message for="birthDate" display="icon" style="color:red;" />
+						
+						<h:outputLabel value="#{msgs.job}" />
+						<h:inputText id="job" 
+							value="#{conversationPerson.father.job}" required="true"
+							requiredMessage="#{msgs.job} - #{msgs.isReq}">
+						</h:inputText>
+						<h:message for="job" display="icon" style="color:red;" />	  
+						
+						<h:outputLabel value="#{msgs.phone}" />
+						<h:inputText id="phone" 
+							value="#{conversationPerson.father.number}" required="true"
+							requiredMessage="#{msgs.phone} - #{msgs.isReq}">
+						</h:inputText>
+						<h:message for="phone" display="icon" style="color:red;" />	
+						
+						<h:outputLabel value="#{msgs.email}" />
+						<h:inputText id="email" 
+							value="#{conversationPerson.father.email}" required="true"
+							requiredMessage="#{msgs.phone} - #{msgs.isReq}">
+						</h:inputText>
+						<h:message for="email" display="icon" style="color:red;" />	
+						
+						<h:outputLabel value="#{msgs.business}" />
+						<h:inputText id="business" 
+							value="#{conversationPerson.father.business}" required="true"
+							requiredMessage="#{msgs.business} - #{msgs.isReq}">
+						</h:inputText>
+						<h:message for="business" display="icon" style="color:red;" />
+						
+						<h:outputLabel value="#{msgs.income}" />
+						<h:inputText id="income"  
+							value="#{conversationPerson.father.income}" required="true"
+							requiredMessage="#{msgs.income} - #{msgs.isReq}">
+						</h:inputText>
+						<h:message for="income" display="icon" style="color:red;" />
+						
+						<h:outputLabel value="#{msgs.estate}" />
+						<h:inputText id="estate" 
+							value="#{conversationPerson.father.estate}" required="true"
+							requiredMessage="#{msgs.estate} - #{msgs.isReq}">
+						</h:inputText>
+						<h:message for="estate" display="icon" style="color:red;" />
+		
+				    </h:panelGrid>
+					
+				</h:panelGroup>	
+				
+				<h:panelGroup  layout="block" id="mother" style="width:350px;  margin-left:20px;  margin-top:20px;" >
+					<h3 >#{msgs.mother} </h3> <br/>
+					<h:panelGrid columns="3" styleClass="form-table" style="float:left; " rendered="#{conversationPerson.dontHaveMother ne true}">		    				
+						    
+						<h:outputLabel value="#{msgs.fullName}" />
+						<h:inputText id="fullName1" 
+							value="#{conversationPerson.mother.name}" required="true"
+							requiredMessage="#{msgs.fullName} - #{msgs.isReq}">
+						</h:inputText>
+						<h:message for="fullName1" display="icon" style="color:red;" />
+						
+						<h:outputLabel value="#{msgs.birthDate}" for="birthDate1"/>
+		                <p:calendar id="birthDate1" value="#{conversationPerson.mother.birthDate}" 
+		                 yearRange="1950:2020" navigator="true" pattern="yyyy-MM-dd" 
+		                 required="true" requiredMessage="#{msgs.birthDate} - #{msgs.isReq}" />
+		                <h:message for="birthDate1" display="icon" style="color:red;" />
+						
+						<h:outputLabel value="#{msgs.job}" />
+						<h:inputText id="job1" 
+							value="#{conversationPerson.mother.job}" required="true"
+							requiredMessage="#{msgs.job} - #{msgs.isReq}">
+						</h:inputText>
+						<h:message for="job1" display="icon" style="color:red;" />	  
+						
+						<h:outputLabel value="#{msgs.phone}" />
+						<h:inputText id="phone1" 
+							value="#{conversationPerson.mother.number}" required="true"
+							requiredMessage="#{msgs.phone} - #{msgs.isReq}">
+						</h:inputText>
+						<h:message for="phone1" display="icon" style="color:red;" />	
+						
+						<h:outputLabel value="#{msgs.email}" />
+						<h:inputText id="email1" 
+							value="#{conversationPerson.mother.email}" required="true"
+							requiredMessage="#{msgs.phone} - #{msgs.isReq}">
+						</h:inputText>
+						<h:message for="email1" display="icon" style="color:red;" />	
+						
+						<h:outputLabel value="#{msgs.business}" />
+						<h:inputText id="business1" 
+							value="#{conversationPerson.mother.business}" required="true"
+							requiredMessage="#{msgs.business} - #{msgs.isReq}">
+						</h:inputText>
+						<h:message for="business1" display="icon" style="color:red;" />
+						
+						<h:outputLabel value="#{msgs.income}" />
+						<h:inputText id="income1" 
+							value="#{conversationPerson.mother.income}" required="true"
+							requiredMessage="#{msgs.income} - #{msgs.isReq}">
+						</h:inputText>
+						<h:message for="income1" display="icon" style="color:red;" />
+						
+						<h:outputLabel value="#{msgs.estate}" />
+						<h:inputText id="estate1" 
+							value="#{conversationPerson.mother.estate}" required="true"
+							requiredMessage="#{msgs.estate} - #{msgs.isReq}">
+						</h:inputText>
+						<h:message for="estate1" display="icon" style="color:red;" />
+				
+					</h:panelGrid>
+				</h:panelGroup>	
+						
+			</h:panelGrid>
+  
+		    <div class="row">
+		    	<div class="col submit">
+					<p:commandButton ajax="false" value="#{msgs.save}" action="#{personController.saveParentData()}"/>		    	
+		    	</div>
+		    	<div class="col submit">
+					<p:commandButton ajax="false" styleClass="orange-btn" value="#{msgs.cancel}" action="#{personController.cancel()}" immediate="true"/>		    		
+		    	</div>		    	
+		    </div>
+		</div>
+	</h:form>
+	</ui:define>
+</ui:composition>

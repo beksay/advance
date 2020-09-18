@@ -1,0 +1,42 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"> 
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"> 
+
+<ui:composition>
+		<h:form>
+			<div class="main-side-menu">
+				<div class="main-side-menu">
+					<p:menubar styleClass="mymenu">
+					    <p:menuitem value="Students"  outcome="/view/person/person_journal.xhtml" styleClass="#{view.viewId.contains('/person/') ? 'active' : ''}" rendered="#{loginUtil.userHasRole(loginUtil.currentUser, 'consultant')}"/>
+					    <p:menuitem value="Alumni" outcome="/view/alumni/person_journal.xhtml" styleClass="#{view.viewId.contains('/alumni/') ? 'active' : ''}" rendered="#{loginUtil.userHasRole(loginUtil.currentUser, 'consultant')}"/>
+					    <p:menuitem value="Failed Students" outcome="/view/failed/person_journal.xhtml" styleClass="#{view.viewId.contains('/failed/') ? 'active' : ''}" rendered="#{loginUtil.userHasRole(loginUtil.currentUser, 'consultant')}"/>
+			     		<p:menuitem value="Statistics" outcome="/view/statistic/statistic_journal.xhtml" styleClass="#{view.viewId.contains('/statistic/') ? 'active' : ''}" rendered="#{loginUtil.userHasRole(loginUtil.currentUser, 'consultant')}"/>
+			     		<p:menuitem value="#{msgs.programs}" outcome="/view/programs/programs_journal.xhtml" styleClass="#{view.viewId.contains('/programs/') ? 'active' : ''}" rendered="#{loginUtil.userHasRole(loginUtil.currentUser, 'consultant')}"/>
+			     		<p:menuitem value="#{msgs.userJournal}" outcome="/view/user/user_journal.xhtml" styleClass="#{view.viewId.contains('/user/') ? 'active' : ''}" rendered="#{loginUtil.userHasRole(loginUtil.currentUser, 'admin')}"/>
+						<p:menuitem value="#{msgs.dictionaries}" outcome="/view/dictionary/dict_type_list.xhtml" styleClass="#{view.viewId.contains('/dictionary/') ? 'active' : ''}" rendered="#{loginUtil.userHasRole(loginUtil.currentUser, 'consultant')}"/>
+						<p:menuitem value="#{msgs.country}" outcome="/view/country/country_list.xhtml" styleClass="#{view.viewId.contains('/country/') ? 'active' : ''}" rendered="#{loginUtil.userHasRole(loginUtil.currentUser, 'consultant')}"/>
+					    <p:menuitem value="Contract: SAC" outcome="/view/contract/person_list.xhtml" styleClass="#{view.viewId.contains('/contract/') ? 'active' : ''}" rendered="#{loginUtil.userHasRole(loginUtil.currentUser, 'finance')}"/>
+					    <p:menuitem value="#{msgs.income}" outcome="/view/income/income_list.xhtml" styleClass="#{view.viewId.contains('/income/') ? 'active' : ''}" rendered="#{loginUtil.userHasRole(loginUtil.currentUser, 'finance')}"/>
+					    <p:menuitem value="#{msgs.outcome}" outcome="/view/outcome/outcome_list.xhtml" styleClass="#{view.viewId.contains('/outcome/') ? 'active' : ''}" rendered="#{loginUtil.userHasRole(loginUtil.currentUser, 'finance')}"/>
+					    <p:menuitem value="#{msgs.movement}" outcome="/view/movement/movement_list.xhtml" styleClass="#{view.viewId.contains('/movement/') ? 'active' : ''}" rendered="#{loginUtil.userHasRole(loginUtil.currentUser, 'finance')}"/>
+					    <p:menuitem value="#{msgs.balance}" outcome="/view/balance/balance_journal.xhtml" styleClass="#{view.viewId.contains('/balance/') ? 'active' : ''}" rendered="#{loginUtil.userHasRole(loginUtil.currentUser, 'finance')}"/>
+					    <p:menuitem value="SAC: Students" outcome="/view/allStudents/person_journal.xhtml" styleClass="#{view.viewId.contains('/allStudents/') ? 'active' : ''}" rendered="#{loginUtil.userHasRole(loginUtil.currentUser, 'admin')}"/>
+					</p:menubar>
+					<p:growl id="messages" />
+				</div>
+				<div class="main-side-user">
+					<div class="side-user-logins">#{loginUtil.currentUser.username}</div>
+					<div class="side-user-block">
+						<h:commandLink styleClass="side-user-link" action="#{passwordChanger.change()}"><i class="fas fa-user-edit"></i></h:commandLink>
+					</div>
+					<div class="side-user-block">
+						<h:commandLink styleClass="side-user-link" action="#{userController.logout()}"><i class="fas fa-sign-out-alt"></i></h:commandLink>
+					</div>
+				</div>				
+			 </div>
+		</h:form>
+</ui:composition>
+</html>

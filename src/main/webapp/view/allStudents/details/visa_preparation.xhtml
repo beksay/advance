@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	template="/WEB-INF/templates/layouts/private.xhtml">
+	<ui:define name="main-content-left">
+		<ui:include src="../../../WEB-INF/templates/private/mainleftcontent.xhtml" />		
+	</ui:define>
+	<ui:define name="content">
+		<div class="innerBlock">
+		    <div class="innerBlockHeader">
+		    	<ul>
+		    		<li>Visa Preparation</li>
+		    		<li><a><i class="fas fa-user"></i></a></li>
+					<li>#{step11Controller.module.person.fullname}</li>
+		    	</ul>
+		    </div>		
+		    <h:form id="form">
+		        <div class="row">
+		            <div class="col">
+			            <h:outputLabel value="#{msgs.case}"/>
+				        <h:panelGrid columns="2" id="image">
+					     		<p:commandButton styleClass="orange-btn" value="#{step11Controller.image.name}" ajax="false" rendered="#{step11Controller.image.name ne null}" icon="fas fa-download">
+								        <p:fileDownload value="#{utilController.downloadFile(step11Controller.image)}" />
+								 </p:commandButton>
+				     	</h:panelGrid>	        	
+		        	</div>
+					<div class="col">
+						<h:outputLabel value="#{msgs.date}" />
+			            <p:calendar value="#{step11Controller.module.visaPreperation}" id="date" styleClass="Datepicker"
+			                       showOn="button"  pattern="dd-MM-yyyy" required="true" requiredMessage="#{msgs.date} - #{msgs.isReq}"
+			                       disabled="true"/> 
+			            <h:message for="date" display="icon" style="color:red;" />					
+					</div>
+					<div class="col">
+			            <h:outputLabel value="#{msgs.dateCreated}" rendered="#{step11Controller.module.dateCreated ne null}"/>
+			            <h:outputLabel value="#{step11Controller.module.dateCreated}" rendered="#{step11Controller.module.dateCreated ne null}">
+			                <f:convertDateTime pattern="yyyy-MM-dd HH:mm" />
+			            </h:outputLabel>
+		            </div>
+		            <div class="col">
+			            <h:outputLabel value="#{msgs.filledBy}" rendered="#{step11Controller.module.dateCreated ne null}"/>
+			            <h:outputLabel value="#{step11Controller.module.user.person.fullname}" rendered="#{step11Controller.module.dateCreated ne null}"/>
+		            </div>
+		            <h:panelGroup layout="block" class="col button" rendered="#{step11Controller.module.status eq 'COMPLETED'}">
+						<p:commandButton  styleClass="green-btn" id="clearBtn2" update="@form formLeftSide" action="#{step11Controller.sendToEdit()}" value="#{msgs.sendToEdit}" >
+						   <p:confirm header="Confirmation required ..." message="Do you really want to make this process?" icon="pi pi-exclamation-triangle" />
+						</p:commandButton>
+					</h:panelGroup> 
+		        </div>
+	          <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+			        <p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes" icon="pi pi-check" />
+			        <p:commandButton value="No" type="button" styleClass="orange-btn" icon="pi pi-times" />
+			    </p:confirmDialog>
+		 </h:form>
+		</div>
+	</ui:define>
+</ui:composition>

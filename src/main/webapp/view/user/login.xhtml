@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:p="http://primefaces.org/ui"
+    template="/WEB-INF/templates/layouts/baseLogin.xhtml">
+ 	<ui:define name="wrap-container">
+		<div class="loginBody">
+		    <div class="loginContainer">
+		    	<div class="loginHeader">
+		    		<p>ADVANCE ACADEMY</p>
+		    		<span>welcome to Advance academy</span>
+		    	</div>
+				<h:form id="login-form" prependId="false" >		    	
+			    	<div class="loginContent">
+			    		<div class="row">
+			    			<div class="col-12">
+								<h:outputText value="#{msgs.username}" styleClass="inputTitle"/>
+								<p:inputText value="#{userController.username}" id="email" required="true" requiredMessage="#{msgs.username} - #{msgs.isReq}"/>				
+								<p:watermark value="#{msgs.username}" for="email"/>			    			
+			    			</div>
+			    			<div class="col-12">
+								<h:outputText value="#{msgs.password}" styleClass="inputTitle"/>
+								<h:inputSecret value="#{userController.password}" id="password" required="true" requiredMessage="#{msgs.password} - #{msgs.isReq}"/>
+								<p:watermark value="#{msgs.password}" for="password"/>			    			
+			    			</div>
+			    			<div class="col-12 submit">
+								<p:commandButton value="#{msgs.login}" styleClass="ui-button-login" action="#{userController.login()}" ajax="false"/>			    			
+			    			</div>
+			    		</div>
+			    	</div>
+					<p:messages/>
+					<p:growl id="growl" showDetail="true" sticky="true" /> 
+				</h:form>			    
+			</div>
+		</div>
+	</ui:define>	
+	
+</ui:composition>

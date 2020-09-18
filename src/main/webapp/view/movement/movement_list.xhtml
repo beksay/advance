@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	template="/WEB-INF/templates/layouts/private.xhtml">
+	<ui:define name="content">
+	<h:form>
+	   <div class="innerBlock">	
+		   <div class="innerBlockHeader">
+		    	<ul>
+		    		<li></li>
+		    		<li><p:commandButton action="#{movementController.add()}" value="Add Movement" />	</li>
+		    	</ul>
+		    </div>
+		    <div class="row">
+				<div class="col">
+					<h:outputLabel value="#{msgs.amount}" />
+					<p:inputText id="amount" value="#{movementList.amount}"	title="Type amount" />
+					<p:tooltip id="nameTooltip" for="amount" showEvent="focus" hideEvent="blur" />			
+				</div>
+				<div class="col">
+		            <h:outputLabel for="accountFrom" value="#{msgs.accountFrom}" />	 
+				    <p:selectOneMenu ajax="false" id="accountFrom" value="#{movementList.accountFrom}" converter="enumConverter">
+				        <f:selectItem itemLabel="" itemValue="" />
+		                <f:selectItems value="#{movementController.accountTypeList}" var="item" itemLabel="#{enums[item]}" itemValue="#{item}"/>     
+		            </p:selectOneMenu>
+		            <h:message for="accountFrom" display="icon" style="color:red;" />		        	
+		        </div>
+		       <div class="col">
+		            <h:outputLabel for="accountTo" value="#{msgs.accountTo}" />	 
+				    <p:selectOneMenu ajax="false" id="accountTo" value="#{movementList.accountTo}" converter="enumConverter">
+				        <f:selectItem itemLabel="" itemValue="" />
+		                <f:selectItems value="#{movementController.accountTypeList}" var="item" itemLabel="#{enums[item]}" itemValue="#{item}"/>     
+		            </p:selectOneMenu>
+		            <h:message for="accountTo" display="icon" style="color:red;" />		        	
+		        </div>
+				<div class="col submit">
+					<p:commandButton id="applyBtn" action="#{movementList.filterData()}" value="#{msgs.apply}" />				
+				</div>
+				<div class="col submit">
+					<p:commandButton ajax="false" styleClass="orange-btn" id="clearBtn" action="#{movementList.clearData()}" value="#{msgs.clear}" />				
+				</div>
+			</div>
+			
+			<p:dataTable var="entity" value="#{movementList.model}" 
+			paginator="true" rows="10" rowIndexVar="index" lazy="true" 
+			emptyMessage="#{msgs.noRecordsFound}" 
+			style="margin-top:0px"
+			sortOrder="DESCENDING"
+			styleClass="borderless"
+			rowsPerPageTemplate="10,20,30,40,50" paginatorPosition="bottom" pageLinks="10"
+   			currentPageReportTemplate="#{msgs.showPaymentNumbers}" 
+            paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {CurrentPageReport} {RowsPerPageDropdown}">
+		 		<f:facet name="header">
+			         #{msgs.movement}
+			    </f:facet>
+			    <p:column headerText="#{msgs.id}">
+		        	<h:outputText value="#{index + 1}"/>
+		        </p:column>
+		        <p:column headerText="#{msgs.accountFrom}">
+		          	<h:outputText value="#{enums[entity.accountFrom]}" />
+		        </p:column>
+		        <p:column headerText="#{msgs.accountTo}">
+		          	<h:outputText value="#{enums[entity.accountTo]}" />
+		        </p:column>
+		        <p:column headerText="#{msgs.amount}">
+		        	<h:outputText value="#{entity.amount}" />
+		        </p:column>
+		        <p:column headerText="#{msgs.currencyType}">
+		          	<h:outputText value="#{enums[entity.currencyType]}" />
+		        </p:column> 
+		        <p:column headerText="#{msgs.note}">
+		        	<h:outputText value="#{entity.note}" />
+		        </p:column>
+		        <p:column headerText="#{msgs.dateCreated}" >
+		        	<h:outputText value="#{entity.dateCreated}" >
+			        	<f:convertDateTime pattern="yyyy-MM-dd HH:mm" />
+		        	</h:outputText>
+		         </p:column>
+                <p:column headerText="#{msgs.filledBy}">
+		        	<h:outputText value="#{entity.user.person.fullname}" />
+		        </p:column>
+		        <p:column headerText="#{msgs.operation}">
+		            <p:commandButton action="#{movementController.edit(entity)}" update="@form" icon="fa fa-edit" class="btn-journal" title="#{msgs.edit}" />
+		        	<p:commandButton action="#{movementController.delete(entity)}" update="@form" icon="fa fa-trash" class="btn-journal" title="#{msgs.delete}" />
+		        </p:column>
+   
+	        </p:dataTable>
+	    </div>
+	</h:form>
+	</ui:define>
+</ui:composition>

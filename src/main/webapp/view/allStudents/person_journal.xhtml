@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	template="/WEB-INF/templates/layouts/private.xhtml">
+	
+	<ui:define name="content">
+		<h:form id="form">
+		<div class="innerBlock">
+			<div class="row">
+				<div class="col">
+					<h:outputLabel value="#{msgs.pin}" />
+					<p:inputText id="pin" value="#{allStudentsList.pin}" title="text #{msgs.pin}" />
+					<p:tooltip id="nameTooltip1" for="pin" showEvent="focus" hideEvent="blur" />
+				</div>
+				<div class="col">
+					<h:outputLabel value="#{msgs.fullName}" />
+					<p:inputText id="lastname" value="#{allStudentsList.fullName}" title="text #{msgs.fullName}" />
+					<p:tooltip id="nameTooltip2" for="lastname" showEvent="focus" hideEvent="blur" />
+				</div>
+				<div class="col">
+			        <h:outputLabel for="countries" value="#{msgs.countries}" />	
+				    <p:selectCheckboxMenu id="countries" value="#{allStudentsList.countryList}"  multiple="true"
+			                              filter="true" filterMatchMode="startsWith" converter="cachedConverter">
+			            <f:selectItems value="#{personController.getDict(1)}" var="entity" itemLabel="#{entity.name}" itemValue="#{entity}" />
+			        </p:selectCheckboxMenu>
+				</div>
+				<div class="col">
+				    <h:outputLabel for="programs" value="#{msgs.programs}" />	
+				    <p:selectCheckboxMenu id="programs" value="#{allStudentsList.programList}"  multiple="true"
+			                              filter="true" filterMatchMode="startsWith" converter="cachedConverter">
+			            <f:selectItems value="#{personController.getDict(5)}" var="entity" itemLabel="#{entity.name}" itemValue="#{entity}" />
+			        </p:selectCheckboxMenu>
+				</div>
+				<div class="col">
+				    <h:outputLabel for="majors" value="#{msgs.majors}" />	
+				    <p:selectCheckboxMenu id="majors" value="#{allStudentsList.majorList}"  multiple="true"
+			                              filter="true" filterMatchMode="startsWith" converter="cachedConverter">
+			            <f:selectItems value="#{personController.getDict(7)}" var="entity" itemLabel="#{entity.name}" itemValue="#{entity}" />
+			        </p:selectCheckboxMenu>
+				</div>
+				<div class="col button">
+					<p:commandButton ajax="false" id="applyBtn" action="#{allStudentsList.filterData()}" value="#{msgs.search}" />
+				</div>
+				<div class="col button">
+					<p:commandButton ajax="false" styleClass="orange-btn" id="clearBtn" action="#{allStudentsList.clearData()}" value="#{msgs.clear}" />
+				</div>				
+			</div>
+			
+			<p:dataTable var="entity" value="#{allStudentsList.model}" paginator="true" rows="10" 
+			    rowIndexVar="index" lazy="true" emptyMessage="#{msgs.noRecordsFound}" 
+				sortOrder="DESCENDING" selectionMode="single"  
+				rowsPerPageTemplate="10,20,30,40,50" paginatorPosition="bottom" pageLinks="10"
+				currentPageReportTemplate="#{msgs.showPaymentNumbers}" 
+	            paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {CurrentPageReport} {RowsPerPageDropdown}"
+	            selection="#{allStudentsList.person}"
+	            first="#{allStudentsList.first}" >
+				<p:ajax event="page" listener="#{allStudentsList.onPageChange}"/> 
+		 		<p:ajax event="rowSelect" listener="#{personController.onRowSelectAllStudents}" disabled="#{not roleController.mobile}"  />
+				<p:ajax event="rowDblselect" listener="#{personController.onRowSelectAllStudents}"   />
+		 		<p:ajax event="rowToggle" listener="#{personController.onRowToggle}" />
+		 		<f:facet name="header">
+			         Study Abroad Center Students
+			    </f:facet>
+		        <p:column headerText="#{msgs.number}" width="100">
+		        	<h:outputText value="#{index+1}" />
+		         </p:column>
+		        <p:column headerText="#{msgs.pin}" >
+		        	<h:outputText value="#{entity.pin}" />
+		        </p:column>
+		        <p:column headerText="#{msgs.fullName}" >
+		        	<h:outputText value="#{entity.fullname}" />
+		        </p:column>
+		        <p:column headerText="#{msgs.countries}" >
+		        	<p:dataList value="#{entity.countries}" var="car" type="ordered">
+				        #{car.name}
+				    </p:dataList>
+		        </p:column>
+		        <p:column headerText="#{msgs.programs}" >
+		        	<p:dataList value="#{entity.programs}" var="car" type="ordered">
+				        #{car.name}
+				    </p:dataList>
+		        </p:column>
+		        <p:column headerText="#{msgs.majors}" >
+		        	<p:dataList value="#{entity.majors}" var="car" type="ordered">
+				        #{car.name}
+				    </p:dataList>
+		        </p:column> 
+		        <p:column headerText="#{msgs.semesters}" >
+		        	<p:dataList value="#{entity.semesters}" var="car" type="ordered">
+				        #{car.name}
+				    </p:dataList>
+		        </p:column>
+		        <p:column headerText="#{msgs.status}" >
+		        	<h:outputText value="#{enums[entity.status]}" />
+		        </p:column>
+		        <p:column headerText="#{msgs.operation}" >
+		        	<p:commandButton action="#{personController.parentAdminForm(entity)}" update="@form" icon="fa fa-user" class="btn-journal" title="#{msgs.parentsInfo}" />
+		        	<p:commandButton action="#{personController.emergencyAdminForm(entity)}" update="@form" icon="fa fa-phone" styleClass="indigo-btn" class="btn-journal" title="#{msgs.emergency}" />
+		            <p:commandButton action="#{personViewReport.generatePerson(entity.id)}"  icon="fas fa-print" styleClass="orange-btn"  class="btn-journal" title="Person profile" />
+		        </p:column>
+	        </p:dataTable>
+	        
+	        <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+		        <p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes" icon="pi pi-check" />
+		        <p:commandButton value="No" type="button" styleClass="orange-btn" icon="pi pi-times" />
+		    </p:confirmDialog>
+	      </div>
+		</h:form>
+	</ui:define>
+</ui:composition>

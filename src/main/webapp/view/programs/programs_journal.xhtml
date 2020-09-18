@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	template="/WEB-INF/templates/layouts/private.xhtml">
+	
+	<ui:define name="content">
+		<h:form id="form">
+		<div class="innerBlock">
+		    <div class="innerBlockHeader">
+		    	<ul>
+		    		<li></li>
+		    		<li><p:commandButton ajax="false" action="#{programsController.add()}" value="Add Program" /></li>
+		    	</ul>
+		    </div>
+			<div class="row">
+				<div class="col">
+				    <h:outputLabel for="country" value="#{msgs.country}" />
+				    <p:selectOneMenu ajax="false" id="country" value="#{programsList.country}" converter="cachedConverter">
+				        <f:selectItem itemLabel="#{msgs.selectValue}"/>
+		                <f:selectItems value="#{programsController.countryList}" var="item" itemLabel="#{item.name}" itemValue="#{item}"/>   
+		                <p:ajax event="change" update="city"/>  
+		            </p:selectOneMenu>
+			        <h:message for="country" display="icon" style="color:red;" />
+				</div>
+				<div class="col">
+				    <h:outputLabel value="#{msgs.city}" />
+				 	<p:autoComplete  id="city" dropdown="true" size="74"
+						var="type" itemValue="#{type}" itemLabel="#{type.name}" 
+						value="#{programsList.city}" converter="cachedConverter"  
+						completeMethod="#{programsController.getCityList}" >
+					</p:autoComplete>
+					<h:message for="city" display="icon" style="color:red;" />
+				</div>
+				<div class="col">
+					<h:outputLabel value="#{msgs.universityName}" />
+					<p:inputText id="universityName" value="#{programsList.universityName}" />
+					<p:tooltip id="nameTooltip2" for="universityName" showEvent="focus" hideEvent="blur" />
+				</div>
+				<div class="col">
+				    <h:outputLabel for="programs" value="#{msgs.programs}" />	
+				    <p:selectCheckboxMenu id="programs" value="#{programsList.programList}"  multiple="true"
+			                              filter="true" filterMatchMode="startsWith" converter="cachedConverter">
+			            <f:selectItems value="#{programsController.programList}" var="entity" itemLabel="#{entity.name}" itemValue="#{entity}" />
+			        </p:selectCheckboxMenu>
+				</div>
+				<div class="col">
+				    <h:outputLabel for="majors" value="#{msgs.majors}" />	
+				    <p:selectCheckboxMenu id="majors" value="#{programsList.majorList}"  multiple="true"
+			                              filter="true" filterMatchMode="startsWith" converter="cachedConverter">
+			            <f:selectItems value="#{programsController.majorList}" var="entity" itemLabel="#{entity.name}" itemValue="#{entity}" />
+			        </p:selectCheckboxMenu>
+				</div>
+				<div class="col">
+					<h:outputLabel value="#{msgs.minToefl}" />
+					<p:inputText  value="#{programsList.toeflFrom}"  />
+				</div>
+				<div class="col">
+					<h:outputLabel value="#{msgs.maxToefl}" />
+					<p:inputText  value="#{programsList.toeflTo}"  />
+				</div>
+				<div class="col">
+					<h:outputLabel value="#{msgs.minTuitionFee}" />
+					<p:inputText  value="#{programsList.tuitionFeeFrom}"  />
+				</div> 
+				<div class="col">
+					<h:outputLabel value="#{msgs.maxTuitionFee}" />
+					<p:inputText value="#{programsList.tuitionFeeTo}"  />
+				</div>
+				<div class="col button">
+					<p:commandButton ajax="false" id="applyBtn" action="#{programsList.filterData()}" value="#{msgs.search}" />
+				</div>
+				<div class="col button">
+					<p:commandButton ajax="false" styleClass="orange-btn" id="clearBtn" action="#{programsList.clearData()}" value="#{msgs.clear}" />
+				</div>				
+			</div>
+			
+			<p:dataTable var="entity" value="#{programsList.model}" paginator="true" rows="10" 
+			    rowIndexVar="index" lazy="true" emptyMessage="#{msgs.noRecordsFound}" 
+				sortOrder="DESCENDING" selectionMode="single"  
+				rowsPerPageTemplate="10,20,30,40,50" paginatorPosition="bottom" pageLinks="10"
+				currentPageReportTemplate="#{msgs.showPaymentNumbers}" 
+	            paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {CurrentPageReport} {RowsPerPageDropdown}">
+		 		<p:ajax event="rowSelect" listener="#{programsController.onRowSelect}" disabled="#{not roleController.mobile}"  />
+				<p:ajax event="rowDblselect" listener="#{programsController.onRowSelect}"   />
+				<f:facet name="header">
+			         Programs
+			    </f:facet>
+		        <p:column headerText="#{msgs.number}" width="100">
+		        	<h:outputText value="#{index+1}" />
+		         </p:column>
+		        <p:column headerText="#{msgs.country}" >
+		        	<h:outputText value="#{entity.country.name}" />
+		        </p:column>
+		        <p:column headerText="#{msgs.city}" >
+		        	<h:outputText value="#{entity.city.name}" />
+		        </p:column>
+		        <p:column headerText="#{msgs.state}" >
+		        	<h:outputText value="#{entity.state.name}" />
+		        </p:column>
+		        <p:column headerText="#{msgs.universityName}" >
+		        	<h:outputText value="#{entity.universityName}" />
+		        </p:column>
+		        <p:column headerText="#{msgs.programs}" >
+		        	<p:dataList value="#{entity.programs}" var="car" type="ordered">
+				        #{car.name}
+				    </p:dataList>
+		        </p:column>
+		        <p:column headerText="#{msgs.majors}" >
+		        	<p:dataList value="#{entity.majors}" var="car" type="ordered">
+				        #{car.name}
+				    </p:dataList>
+		        </p:column> 
+		        <p:column headerText="#{msgs.toefl}" >
+		        	<h:outputText value="#{entity.toefl}" />
+		        </p:column>
+		        <p:column headerText="#{msgs.tuitionFee}" > 
+		        	<h:outputText value="#{entity.tuitionFee}" />
+		        </p:column>
+		        <p:column headerText="#{msgs.currency}" >
+		        	<h:outputText value="#{enums[entity.currency]}" />
+		        </p:column>
+		        <p:column headerText="#{msgs.operation}" >
+		            <p:commandButton action="#{programsController.edit(entity)}"  update="@form" icon="fa fa-edit" class="btn-journal" title="#{msgs.edit}" />
+		        	<p:commandButton action="#{programsController.delete(entity)}" update="@form" icon="fa fa-trash-alt" class="btn-journal" styleClass="red-btn" title="#{msgs.delete}" >
+		        	    <p:confirm header="Confirmation required ..." message="Do you want to delete this student?" icon="pi pi-exclamation-triangle" />
+		        	</p:commandButton>
+		        </p:column>
+		        
+	        </p:dataTable>
+	        
+	        <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+		        <p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes" icon="pi pi-check" />
+		        <p:commandButton value="No" type="button" styleClass="orange-btn" icon="pi pi-times" />
+		    </p:confirmDialog>
+	      </div>
+		</h:form>
+	</ui:define>
+</ui:composition>

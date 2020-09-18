@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	template="/WEB-INF/templates/layouts/private.xhtml">
+	<ui:define name="content">
+	<h:form>
+	   <div class="innerBlock">	
+		   <div class="innerBlockHeader">
+		    	<ul>
+		    		<li></li>
+		    		<li><p:commandButton ajax="false" action="#{outcomeController.add()}" value="Add Outcome" /></li>
+		    	</ul>
+		    </div>
+		    <div class="row">
+				<div class="col">
+					<h:outputLabel value="#{msgs.amount}" />
+					<p:inputText id="amount" value="#{outcomeList.amount}"	title="Type amount" />
+					<p:tooltip id="nameTooltip" for="amount" showEvent="focus" hideEvent="blur" />			
+				</div>
+				<div class="col">
+		            <h:outputLabel for="accountType" value="#{msgs.accountType}" />	 
+				    <p:selectOneMenu ajax="false" id="accountType" value="#{outcomeList.accountType}" converter="enumConverter">
+				        <f:selectItem itemLabel="" itemValue="" />
+		                <f:selectItems value="#{outcomeController.accountTypeList}" var="item" itemLabel="#{enums[item]}" itemValue="#{item}"/>     
+		            </p:selectOneMenu>
+		            <h:message for="accountType" display="icon" style="color:red;" />		        	
+		        </div>
+		        <div class="col">
+		            <h:outputLabel for="centerType" value="#{msgs.centerType}" />	 
+				    <p:selectOneMenu ajax="false" id="centerType" value="#{outcomeList.centerType}" converter="enumConverter">
+				        <f:selectItem itemLabel="" itemValue="" />
+		                <f:selectItems value="#{outcomeController.centerTypeList}" var="item" itemLabel="#{enums[item]}" itemValue="#{item}"/>     
+		            </p:selectOneMenu>
+		            <h:message for="centerType" display="icon" style="color:red;" />		        	
+		        </div>
+		        <div class="col"> 
+		            <h:outputLabel value="#{msgs.dateFrom}" for="dateFrom"/>
+	                <p:calendar id="dateFrom" value="#{outcomeList.dateFrom}" 
+			                 navigator="true" pattern="yyyy-MM-dd"  />
+		        </div>
+		        <div class="col"> 
+		            <h:outputLabel value="#{msgs.dateTo}" for="dateTo"/>
+	                <p:calendar id="dateTo" value="#{outcomeList.dateTo}" 
+			                 navigator="true" pattern="yyyy-MM-dd"  />
+		        </div>
+				<div class="col submit">
+					<p:commandButton id="applyBtn" ajax="false" action="#{outcomeList.filterData()}" value="#{msgs.apply}" />				
+				</div>
+				<div class="col submit">
+					<p:commandButton ajax="false" styleClass="orange-btn" id="clearBtn" action="#{outcomeList.clearData()}" value="#{msgs.clear}" />				
+				</div>
+			</div>
+			
+			<p:dataTable var="entity" value="#{outcomeList.model}" 
+			paginator="true" rows="10" rowIndexVar="index" lazy="true" 
+			emptyMessage="#{msgs.noRecordsFound}" 
+			style="margin-top:0px"
+			sortOrder="DESCENDING"
+			styleClass="borderless"
+			rowsPerPageTemplate="10,20,30,40,50" paginatorPosition="bottom" pageLinks="10"
+   			currentPageReportTemplate="#{msgs.showPaymentNumbers}" 
+            paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {CurrentPageReport} {RowsPerPageDropdown}"
+            selection="#{outcomeList.moneySimulation}"
+            first="#{outcomeList.first}" >
+			<p:ajax event="page" listener="#{outcomeList.onPageChange}"/>  
+			
+		 		<f:facet name="header">
+			         #{msgs.outcome}
+			    </f:facet>
+			    <p:column headerText="#{msgs.id}">
+		        	<h:outputText value="#{index + 1}"/>
+		        </p:column>
+		        <p:column headerText="#{msgs.accountType}">
+		          	<h:outputText value="#{enums[entity.accountType]}" />
+		        </p:column>
+		        <p:column headerText="#{msgs.amount}">
+		        	<h:outputText value="#{entity.amount}" >
+		        	   <f:convertNumber type="number" groupingUsed="true" minFractionDigits="2"/>
+				    </h:outputText>
+		        </p:column>
+		        <p:column headerText="#{msgs.currencyType}">
+		          	<h:outputText value="#{enums[entity.currencyType]}" />
+		        </p:column>
+		        <p:column headerText="#{msgs.centerType}">
+		          	<h:outputText value="#{enums[entity.centerType]}" />
+		        </p:column>
+		        <p:column headerText="#{msgs.feeType}">
+		          	<h:outputText value="#{enums[entity.feeType]}" />
+		        </p:column>
+		        <p:column headerText="#{msgs.student}">
+		        	<h:outputText value="#{entity.person.fullname}" />
+		        </p:column>
+		        <p:column headerText="#{msgs.adminType}">
+		          	<h:outputText value="#{enums[entity.adminType]}" />
+		        </p:column>
+		        <p:column headerText="#{msgs.note}">
+		        	<h:outputText value="#{entity.note}" />
+		        </p:column>
+		        <p:column headerText="#{msgs.dateCreated}" >
+		        	<h:outputText value="#{entity.dateCreated}" >
+			        	<f:convertDateTime pattern="yyyy-MM-dd HH:mm" />
+		        	</h:outputText>
+		         </p:column>
+                <p:column headerText="#{msgs.filledBy}">
+		        	<h:outputText value="#{entity.user.person.fullname}" />
+		        </p:column>
+		        <p:column headerText="#{msgs.operation}">
+		            <p:commandButton action="#{outcomeController.edit(entity)}" update="@form" icon="fa fa-edit" class="btn-journal" title="#{msgs.edit}" />
+		        	<p:commandButton action="#{outcomeController.delete(entity)}" update="@form" icon="fa fa-trash" class="btn-journal" title="#{msgs.delete}" />
+		        </p:column>
+		        
+		        <p:columnGroup type="footer">
+		         <p:column colspan="2" style="text-align:right"   />
+		            <p:column >
+				    	<f:facet name="footer">
+				    	    <h:outputText value="#{msgs.totalAmount} :"/>
+					        <h:outputText value="#{outcomeList.totalAmount}">
+					        	<f:convertNumber type="number" groupingUsed="true" minFractionDigits="2"/>
+					        </h:outputText>
+					    </f:facet>
+				    </p:column>
+	                <p:column colspan="9">
+				    </p:column>
+		        </p:columnGroup>
+   
+	        </p:dataTable>
+	    </div>
+	</h:form>
+	</ui:define>
+</ui:composition>

@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	template="/WEB-INF/templates/layouts/private.xhtml">
+	<ui:define name="main-content-left">
+		<ui:include src="../../../WEB-INF/templates/private/mainleftcontent.xhtml" />		
+	</ui:define>
+	<ui:define name="content">
+	 
+		<div class="innerBlock">	
+			<div class="innerBlockHeader">
+		    	<ul>
+		    		<li>I-20</li>
+		    		<li><a><i class="fas fa-user"></i></a></li>
+					<li>#{step7Controller.module.person.fullname}</li>
+		    	</ul>
+		    </div>	
+		     <h:form id="form">		
+		        <h:panelGroup layout="block" class="row" rendered="#{step7Controller.module.status ne 'COMPLETED'}">
+		        	<div class="col">
+		        		<h:outputLabel value="I-20"/>
+				        <h:panelGrid columns="2" id="image">
+				    		
+								<p:fileUpload mode="advanced" fileUploadListener="#{step7Controller.handleFileUploadImage}"
+				                       update="messages image" sizeLimit="10000000" fileLimit="1" auto="true"
+				                       fileLimitMessage="#{msgs.fileLimitMessage}" dragDropSupport="true"
+				                       uploadLabel="#{msgs.upload}" cancelLabel="#{msgs.cancel}" label="#{msgs.choose}"/>
+				         		<p:growl id="messages" showDetail="true"/>  
+				         		
+					     		<h:outputLabel value="#{step7Controller.image.name}"/>
+					            <h:commandLink action="#{step7Controller.removeImage()}" immediate="true" alt="#{msgs.delete}" rendered="#{step7Controller.image.name ne null}"> <i class="fa fa-lg fa-trash"/> </h:commandLink>
+					      
+				     	</h:panelGrid>
+		        	</div>
+					<div class="col submit">
+						<p:commandButton ajax="false" styleClass="add-btn" value="#{msgs.add}" actionListener="#{step7Controller.save()}" />
+					</div>
+					<h:panelGroup layout="block" class="col button" rendered="#{step7Controller.module.status eq 'FILLED'}">
+						<p:commandButton immediate="true" styleClass="green-btn" id="clearBtn" update="@form formLeftSide" action="#{step7Controller.complete()}" value="#{msgs.approve}" >
+						   <p:confirm header="Confirmation required ..." message="Do you really want to complete this process?" icon="pi pi-exclamation-triangle" />
+						</p:commandButton>
+						<p:growl id="growl" showDetail="true" sticky="true" /> 
+					</h:panelGroup>		        
+		        </h:panelGroup>
+			     <p:dataTable id="detailTable" var="entity" value="#{step7Controller.list}" 
+						paginator="false" rowIndexVar="index" lazy="false" 
+						emptyMessage="#{msgs.noRecordsFound}" 
+						style="margin-top:0px"
+						sortOrder="DESCENDING"
+						styleClass="borderless"	>    
+					
+					<p:column headerText="#{msgs.number}" width="50">
+			        	<h:outputText value="#{index+1}" />
+			         </p:column>
+			         
+			          <p:column headerText="#{msgs.documents}" >
+						 <a href="#{utilController.getDownloadURL(utilController.generateKeyAliveCurrentSession(entity.i20Doc))}" >#{entity.i20Doc.fileName}</a>
+			          </p:column>
+			         
+			         <p:column headerText="#{msgs.dateCreated}" >
+			        	<h:outputText value="#{entity.dateCreated}" >
+				        	<f:convertDateTime pattern="yyyy-MM-dd HH:mm" />
+			        	</h:outputText>
+			         </p:column>
+			         
+			         <p:column headerText="#{msgs.filledBy}" >
+			        	<h:outputText value="#{entity.user.person.fullname}" />
+			         </p:column>
+			         
+			         <p:column width="300" > 
+				      	  <p:commandButton action="#{step7Controller.delete(entity)}" styleClass="red-btn"
+				 	     	update="detailTable" value="#{msgs.delete}" icon="fa fa-trash" /> 
+			         </p:column>
+			
+		         </p:dataTable>
+		         
+		         <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+			        <p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes" icon="pi pi-check" />
+			        <p:commandButton value="No" type="button" styleClass="orange-btn" icon="pi pi-times" />
+			     </p:confirmDialog>
+		         </h:form>
+	    	</div>
+	</ui:define>
+</ui:composition>

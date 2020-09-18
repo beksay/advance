@@ -1,0 +1,127 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"> 
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"> 
+
+	<ui:composition>
+	<h:form>
+		<div class="innerBlock">
+		  
+		    <div class="innerBlockHeader">
+		    	<ul>
+		    		<li>Student Profile</li>
+		    		<li><h:commandLink action="#{personViewReport.generatePerson(conversationPerson.person.id)}"><i class="fas fa-print"></i></h:commandLink></li>
+		    	</ul>
+		    </div>
+		    
+			    <div class="innerBlockBody">
+			    	<div class="row inputBlocks">
+			    	   <div class="col-4">       
+				    		<div class="ankeraAvatar">
+								<div class="avatar-block">
+									<h:graphicImage rendered="#{conversationPerson.person.profile ne null}" value="#{utilController.getDownloadURL(utilController.generateKeyAliveCurrentSession(conversationPerson.person.profile))}" width="600" height="400"/>										
+								    <h:graphicImage rendered="#{conversationPerson.person.profile eq null}" library="img" name="person_unknown.png" width="600" height="400"/>  
+								</div>											    
+			    			</div>					
+			    		</div>
+			    		<div class="col-8">
+			               <h:panelGrid columns="2">
+				    		    <h:outputLabel value="Full name :" />
+								<h:outputText  value="#{conversationPerson.person.fullname}" />
+								<h:outputLabel value="INN :" />
+								<h:outputText value="#{conversationPerson.person.pin}" />
+								<h:outputLabel value="#{msgs.birthDate} :" />
+								<h:outputText value="#{conversationPerson.person.birthDate}" />
+				    		    <h:outputLabel value="#{msgs.email} :" />
+								<h:outputText value="#{conversationPerson.person.email}" />
+								<h:outputLabel value="#{msgs.phone} :" />
+								<h:outputText value="#{conversationPerson.person.phone}" />
+							</h:panelGrid>
+			    		</div>
+			    		
+			    	</div>
+			    	<div class="row inputBlocks">
+			    		<div class="col-4">
+			    		    <h:panelGrid columns="2">
+			    		        <h:outputLabel value="#{msgs.countryAddress} :" />
+								<h:outputText value="#{conversationPerson.person.countryBirth.name}" />
+								<h:outputLabel value="#{msgs.cityAddress} :" />
+								<h:outputText value="#{conversationPerson.person.city}" />
+								<h:outputLabel value="#{msgs.streetAddress} :" />
+								<h:outputText value="#{conversationPerson.person.address}" />
+								<h:outputLabel value="#{msgs.citizenship} :" />
+								<h:outputText  value="#{conversationPerson.person.citizenship.name}" />
+				    		    
+							</h:panelGrid>
+			    		</div>
+			    		<div class="col-4">
+			    		    <h:panelGrid columns="2">
+				    		    <h:outputLabel value="#{msgs.mentor} :" />
+								<h:outputText value="#{conversationPerson.person.mentor.name}" />
+								<h:outputLabel value="#{msgs.englishLevel}:" />
+								<h:outputText value="#{conversationPerson.person.english.name}" />
+								<h:outputLabel value="#{msgs.toefl} :" />
+								<h:outputText value="#{conversationPerson.person.toefl}" />
+								<h:outputLabel value="#{msgs.ielts} :" />
+								<h:outputText value="#{conversationPerson.person.ielts}" />
+								<h:outputLabel value="#{msgs.abroad} :" />
+								<h:outputText value="#{conversationPerson.person.abroad}" />
+								<h:outputLabel value="#{msgs.finance} :" />
+								<h:outputText value="#{conversationPerson.person.finance}" />
+							</h:panelGrid>
+			    		</div>
+			    		<div class="col-4">
+			    		    <h:panelGrid columns="2">
+			    		        <h:outputLabel value="#{msgs.weOccupation} :" />
+								<h:outputText value="#{conversationPerson.person.weOccupation}" />
+				    		    <h:outputLabel value="#{msgs.weEmployer} :" />
+								<h:outputText value="#{conversationPerson.person.weEmployer}" />
+								<h:outputLabel value="#{msgs.weCountry} :" />
+								<h:outputText value="#{conversationPerson.person.weCountry}" />
+								<h:outputLabel value="#{msgs.weCity} :" />
+								<h:outputText value="#{conversationPerson.person.weCity}" />
+								<h:outputLabel value="#{msgs.weAddress} :" />
+								<h:outputText value="#{conversationPerson.person.weAddress}" />
+								<h:outputLabel value="#{msgs.weDuties} :" />
+								<h:outputText value="#{conversationPerson.person.weDuties}" />
+							</h:panelGrid>
+			    		</div>
+			    	</div>
+			    	<div class="row inputBlocks">
+			    		<div class="col-3">
+			    		   <p:dataTable var="car" value="#{conversationPerson.person.countries}">
+							    <p:column headerText="Countries">
+							        <h:outputText value="#{car.name}" />
+							    </p:column>
+							</p:dataTable>
+			    		</div>
+			    		<div class="col-3">
+			    		  	 <p:dataTable var="car" value="#{conversationPerson.person.programs}">
+							    <p:column headerText="Programs">
+							        <h:outputText value="#{car.name}" />
+							    </p:column>
+							</p:dataTable>
+			    		</div>
+			    		<div class="col-3">
+			    		    <p:dataTable var="car" value="#{conversationPerson.person.majors}">
+							    <p:column headerText="Majors">
+							        <h:outputText value="#{car.name}" />
+							    </p:column>
+							</p:dataTable>
+			    		</div>
+			    		<div class="col-3">
+			    		    <p:dataTable var="car" value="#{conversationPerson.person.semesters}">
+							    <p:column headerText="Semesters">
+							        <h:outputText value="#{car.name}" />
+							    </p:column>
+							</p:dataTable>
+			    		</div>
+			    	</div>
+			    </div>
+					    
+		</div>
+		</h:form>
+	</ui:composition>
+</html>

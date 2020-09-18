@@ -1,0 +1,396 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	template="/WEB-INF/templates/layouts/private.xhtml">
+	<ui:define name="main-content-left">
+		<ui:include src="../../../WEB-INF/templates/private/mainleftcontent.xhtml" />		
+	</ui:define>	
+	<ui:define name="content">
+	  <h:form>
+		<div class="innerBlock">
+			<div class="innerBlockHeader">
+		    	<ul>
+		    		<li>Document List</li>
+					<li><a><i class="fas fa-user"></i></a></li>
+					<li>#{step2Controller.module.person.fullname}</li>
+		    	</ul>
+		    </div>
+		   
+		        <div class="row">
+		        	<div class="col-3">
+				        <h:outputLabel value="Passport" style="color: #6aff6a;"/>
+				        <h:panelGrid columns="1" id="passport">
+				    		
+								<p:fileUpload mode="advanced" fileUploadListener="#{step2Controller.handleFileUploadPassport}"
+				                       update="messages1 passport" sizeLimit="10000000" fileLimit="1" auto="true"
+				                       fileLimitMessage="#{msgs.fileLimitMessage}" dragDropSupport="true"
+				                       uploadLabel="#{msgs.upload}" cancelLabel="#{msgs.cancel}" label="#{msgs.choose}"
+				                       rendered="#{step2Controller.module.status ne 'COMPLETED'}" />
+				         		<p:growl id="messages1" showDetail="true"/>  
+				         		
+				         		<h:panelGrid columns="2">
+				         		  <p:commandButton styleClass="orange-btn" value="#{step2Controller.passport.name}" ajax="false" rendered="#{step2Controller.passport.name ne null}" icon="fas fa-download">
+								        <p:fileDownload value="#{utilController.downloadFile(step2Controller.passport)}" />
+								  </p:commandButton>
+					              <h:commandLink styleClass="red-btn" action="#{step2Controller.removePassport()}" immediate="true" alt="#{msgs.delete}" rendered="#{step2Controller.passport.name ne null and (step2Controller.module.status eq 'FILLED' or step2Controller.module.status eq 'NEW')}"> <i class="fa fa-lg fa-trash"/> </h:commandLink>
+					            </h:panelGrid>
+					            <br /><br />
+					            <h:outputLabel />
+					            <h:outputLabel value="#{step2Controller.module.passportDate}" rendered="#{step2Controller.module.id ne null}" style="color: burlywood">
+					                <f:convertDateTime pattern="yyyy-MM-dd HH:mm" />
+					            </h:outputLabel>
+				     	</h:panelGrid>	        	
+		        	</div>
+		        	<div class="col-3">
+			            <h:outputLabel value="Photo 5x5" style="color: #6aff6a;"/>
+				        <h:panelGrid columns="1" id="picture">
+				    		
+								<p:fileUpload mode="advanced" fileUploadListener="#{step2Controller.handleFileUploadPicture}"
+				                       update="messages2 picture" sizeLimit="10000000" fileLimit="1" auto="true"
+				                       fileLimitMessage="#{msgs.fileLimitMessage}" dragDropSupport="true"
+				                       uploadLabel="#{msgs.upload}" cancelLabel="#{msgs.cancel}" label="#{msgs.choose}"
+				                       rendered="#{step2Controller.module.status ne 'COMPLETED'}" />
+				         		<p:growl id="messages2" showDetail="true"/>  
+				         		
+				         		<h:panelGrid columns="2">
+				                    <p:commandButton styleClass="orange-btn" value="#{step2Controller.picture.name}" ajax="false" rendered="#{step2Controller.picture.name ne null}" icon="fas fa-download">
+								        <p:fileDownload value="#{utilController.downloadFile(step2Controller.picture)}" />
+								    </p:commandButton>
+						            <h:commandLink action="#{step2Controller.removePicture()}" immediate="true" alt="#{msgs.delete}" rendered="#{step2Controller.picture.name ne null and (step2Controller.module.status eq 'FILLED' or step2Controller.module.status eq 'NEW')}"> <i class="fa fa-lg fa-trash"/> </h:commandLink>
+					            </h:panelGrid>
+					            <br /><br />
+					            <h:outputLabel />
+					            <h:outputLabel value="#{step2Controller.module.pictureDate}" rendered="#{step2Controller.module.id ne null}" style="color: burlywood">
+					                <f:convertDateTime pattern="yyyy-MM-dd HH:mm" />
+					            </h:outputLabel>
+				     	</h:panelGrid>	        	
+		        	</div>
+		        	<div class="col-3">
+			            <h:outputLabel value="Bank statement" style="color: #6aff6a;"/>
+				        <h:panelGrid columns="1" id="bank">
+				    		
+								<p:fileUpload mode="advanced" fileUploadListener="#{step2Controller.handleFileUploadBankStatement}"
+				                       update="messages3 bank" sizeLimit="10000000" fileLimit="1" auto="true"
+				                       fileLimitMessage="#{msgs.fileLimitMessage}" dragDropSupport="true"
+				                       uploadLabel="#{msgs.upload}" cancelLabel="#{msgs.cancel}" label="#{msgs.choose}"
+				                       rendered="#{step2Controller.module.status ne 'COMPLETED'}" />
+				         		<p:growl id="messages3" showDetail="true"/>  
+				         		<h:panelGrid columns="2">
+				                    <p:commandButton styleClass="orange-btn" value="#{step2Controller.bankStatement.name}" ajax="false" rendered="#{step2Controller.bankStatement.name ne null}" icon="fas fa-download">
+							            <p:fileDownload value="#{utilController.downloadFile(step2Controller.bankStatement)}" />
+								    </p:commandButton>
+						            <h:commandLink action="#{step2Controller.removeBankStatement()}" immediate="true" alt="#{msgs.delete}" rendered="#{step2Controller.bankStatement.name ne null and (step2Controller.module.status eq 'FILLED' or step2Controller.module.status eq 'NEW')}"> <i class="fa fa-lg fa-trash"/> </h:commandLink>
+					            </h:panelGrid>
+					            <br /><br />
+					            <h:outputLabel />
+					            <h:outputLabel value="#{step2Controller.module.bankStatementDate}" rendered="#{step2Controller.module.id ne null}" style="color: burlywood">
+					                <f:convertDateTime pattern="yyyy-MM-dd HH:mm" />
+					            </h:outputLabel>
+				     	</h:panelGrid>	        	
+		        	</div>
+		        	<div class="col-3">
+			            <h:outputLabel value="Parents ID" style="color: #6aff6a;"/>
+				        <h:panelGrid columns="1" id="parents">
+				    		
+								<p:fileUpload mode="advanced" fileUploadListener="#{step2Controller.handleFileUploadParents}"
+				                       update="messages4 parents" sizeLimit="10000000" fileLimit="1" auto="true"
+				                       fileLimitMessage="#{msgs.fileLimitMessage}" dragDropSupport="true"
+				                       uploadLabel="#{msgs.upload}" cancelLabel="#{msgs.cancel}" label="#{msgs.choose}" 
+				                       rendered="#{step2Controller.module.status ne 'COMPLETED'}" />
+				         		<p:growl id="messages4" showDetail="true"/>  
+				         		<h:panelGrid columns="2">
+					                <p:commandButton styleClass="orange-btn" value="#{step2Controller.parents.name}" ajax="false" rendered="#{step2Controller.parents.name ne null}" icon="fas fa-download">
+							            <p:fileDownload value="#{utilController.downloadFile(step2Controller.parents)}" />
+								    </p:commandButton>    
+						            <h:commandLink action="#{step2Controller.removeParents()}" immediate="true" alt="#{msgs.delete}" rendered="#{step2Controller.parents.name ne null and (step2Controller.module.status eq 'FILLED' or step2Controller.module.status eq 'NEW')}"> <i class="fa fa-lg fa-trash"/> </h:commandLink>
+					             </h:panelGrid>
+					            <br /><br />
+					            <h:outputLabel />
+					            <h:outputLabel value="#{step2Controller.module.parentsDate}" rendered="#{step2Controller.module.id ne null}" style="color: burlywood">
+					                <f:convertDateTime pattern="yyyy-MM-dd HH:mm" />
+					            </h:outputLabel>
+				     	</h:panelGrid>	        	
+		        	</div>
+		        	<div class="col-3">
+			            <h:outputLabel value="Transcript" style="color: #6aff6a;"/>
+				        <h:panelGrid columns="1" id="transcript">
+				    		
+								<p:fileUpload mode="advanced" fileUploadListener="#{step2Controller.handleFileUploadTranscript}"
+				                       update="messages5 transcript" sizeLimit="10000000" fileLimit="1" auto="true"
+				                       fileLimitMessage="#{msgs.fileLimitMessage}" dragDropSupport="true"
+				                       uploadLabel="#{msgs.upload}" cancelLabel="#{msgs.cancel}" label="#{msgs.choose}" 
+				                       rendered="#{step2Controller.module.status ne 'COMPLETED'}" />
+				         		<p:growl id="messages5" showDetail="true"/>  
+				         		<h:panelGrid columns="2">
+					                <p:commandButton styleClass="orange-btn" value="#{step2Controller.transcript.name}" ajax="false" rendered="#{step2Controller.transcript.name ne null}" icon="fas fa-download">
+							            <p:fileDownload value="#{utilController.downloadFile(step2Controller.transcript)}" />
+								    </p:commandButton>     
+						            <h:commandLink action="#{step2Controller.removeTranscript()}" immediate="true" alt="#{msgs.delete}" rendered="#{step2Controller.transcript.name ne null and (step2Controller.module.status eq 'FILLED' or step2Controller.module.status eq 'NEW')}"> <i class="fa fa-lg fa-trash"/> </h:commandLink>
+					            </h:panelGrid>
+					            <br /><br />
+					            <h:outputLabel />
+					            <h:outputLabel value="#{step2Controller.module.transcriptDate}" rendered="#{step2Controller.module.id ne null}" style="color: burlywood">
+					                <f:convertDateTime pattern="yyyy-MM-dd HH:mm" />
+					            </h:outputLabel>
+				     	</h:panelGrid>	        	
+		        	</div>
+		        	<div class="col-3">
+			            <h:outputLabel value="High School Diploma" style="color: #6aff6a;"/>
+				        <h:panelGrid columns="1" id="school">
+				    		
+								<p:fileUpload mode="advanced" fileUploadListener="#{step2Controller.handleFileUploadSchoolDiploma}"
+				                       update="messages6 school" sizeLimit="10000000" fileLimit="1" auto="true"
+				                       fileLimitMessage="#{msgs.fileLimitMessage}" dragDropSupport="true"
+				                       uploadLabel="#{msgs.upload}" cancelLabel="#{msgs.cancel}" label="#{msgs.choose}" 
+				                       rendered="#{step2Controller.module.status ne 'COMPLETED'}" />
+				         		<p:growl id="messages6" showDetail="true"/>  
+				         		<h:panelGrid columns="2">
+					                <p:commandButton styleClass="orange-btn" value="#{step2Controller.schoolDiploma.name}" ajax="false" rendered="#{step2Controller.schoolDiploma.name ne null}" icon="fas fa-download">
+							            <p:fileDownload value="#{utilController.downloadFile(step2Controller.schoolDiploma)}" />
+								    </p:commandButton>        
+						            <h:commandLink action="#{step2Controller.removeSchoolDiploma()}" immediate="true" alt="#{msgs.delete}" rendered="#{step2Controller.schoolDiploma.name ne null and (step2Controller.module.status eq 'FILLED' or step2Controller.module.status eq 'NEW')}"> <i class="fa fa-lg fa-trash"/> </h:commandLink>
+					             </h:panelGrid>
+					            <br /><br />
+					            <h:outputLabel />
+					            <h:outputLabel value="#{step2Controller.module.schoolDiplomaDate}" rendered="#{step2Controller.module.id ne null}" style="color: burlywood">
+					                <f:convertDateTime pattern="yyyy-MM-dd HH:mm" />
+					            </h:outputLabel>
+				     	</h:panelGrid>	        	
+		        	</div>
+		        	<div class="col-3">
+			            <h:outputLabel value="University Diploma" rendered="#{step2Controller.isMasterStudent(step2Controller.module.person)}" style="color:#6aff6a"/>
+			            <h:outputLabel value="University Diploma" rendered="#{!step2Controller.isMasterStudent(step2Controller.module.person)}" />
+				        <h:panelGrid columns="1" id="university">
+				    		
+								<p:fileUpload mode="advanced" fileUploadListener="#{step2Controller.handleFileUploadUniversityDiploma}"
+				                       update="messages7 university" sizeLimit="10000000" fileLimit="1" auto="true"
+				                       fileLimitMessage="#{msgs.fileLimitMessage}" dragDropSupport="true"
+				                       uploadLabel="#{msgs.upload}" cancelLabel="#{msgs.cancel}" label="#{msgs.choose}" 
+				                       rendered="#{step2Controller.module.status ne 'COMPLETED'}" />
+				         		<p:growl id="messages7" showDetail="true"/>  
+				         		<h:panelGrid columns="2">
+					                <p:commandButton styleClass="orange-btn" value="#{step2Controller.universityDiploma.name}" ajax="false" rendered="#{step2Controller.universityDiploma.name ne null}" icon="fas fa-download">
+							            <p:fileDownload value="#{utilController.downloadFile(step2Controller.universityDiploma)}" />
+								    </p:commandButton>     
+						            <h:commandLink action="#{step2Controller.removeUniversityDiploma()}" immediate="true" alt="#{msgs.delete}" rendered="#{step2Controller.universityDiploma.name ne null and (step2Controller.module.status eq 'FILLED' or step2Controller.module.status eq 'NEW')}"> <i class="fa fa-lg fa-trash"/> </h:commandLink>
+					             </h:panelGrid>
+					            <br /><br />
+					            <h:outputLabel />
+					            <h:outputLabel value="#{step2Controller.module.universityDiplomaDate}" rendered="#{step2Controller.module.id ne null}" style="color: burlywood">
+					                <f:convertDateTime pattern="yyyy-MM-dd HH:mm" />
+					            </h:outputLabel>
+				     	</h:panelGrid>	        	
+		        	</div>
+		        	<div class="col-3">
+		        	    <h:outputLabel value="Motivational Letter" rendered="#{step2Controller.isMasterStudent(step2Controller.module.person)}" style="color:#6aff6a"/>
+			            <h:outputLabel value="Motivational Letter" rendered="#{!step2Controller.isMasterStudent(step2Controller.module.person)}"/>
+				        <h:panelGrid columns="1" id="motivation">
+				    		
+								<p:fileUpload mode="advanced" fileUploadListener="#{step2Controller.handleFileUploadMotivation}"
+				                       update="messages8 motivation" sizeLimit="10000000" fileLimit="1" auto="true"
+				                       fileLimitMessage="#{msgs.fileLimitMessage}" dragDropSupport="true"
+				                       uploadLabel="#{msgs.upload}" cancelLabel="#{msgs.cancel}" label="#{msgs.choose}" 
+				                       rendered="#{step2Controller.module.status ne 'COMPLETED'}" />
+				         		<p:growl id="messages8" showDetail="true"/>  
+				         		<h:panelGrid columns="2">
+					                <p:commandButton styleClass="orange-btn" value="#{step2Controller.motivation.name}" ajax="false" rendered="#{step2Controller.motivation.name ne null}" icon="fas fa-download">
+							            <p:fileDownload value="#{utilController.downloadFile(step2Controller.motivation)}" />
+								    </p:commandButton>      
+						            <h:commandLink action="#{step2Controller.removeMotivation()}" immediate="true" alt="#{msgs.delete}" rendered="#{step2Controller.motivation.name ne null and (step2Controller.module.status eq 'FILLED' or step2Controller.module.status eq 'NEW')}"> <i class="fa fa-lg fa-trash"/> </h:commandLink>
+					            </h:panelGrid>
+					            <br /><br />
+					            <h:outputLabel />
+					            <h:outputLabel value="#{step2Controller.module.motivationDate}" rendered="#{step2Controller.module.id ne null}" style="color: burlywood">
+					                <f:convertDateTime pattern="yyyy-MM-dd HH:mm" />
+					            </h:outputLabel>
+				     	</h:panelGrid>	        	
+		        	</div>
+		        	<div class="col-3">
+		        	    <h:outputLabel value="Recommendation Letter" rendered="#{step2Controller.isMasterStudent(step2Controller.module.person)}" style="color:#6aff6a"/>
+			            <h:outputLabel value="Recommendation Letter" rendered="#{!step2Controller.isMasterStudent(step2Controller.module.person)}"/>
+				        <h:panelGrid columns="1" id="recomendation">
+				    		
+								<p:fileUpload mode="advanced" fileUploadListener="#{step2Controller.handleFileUploadRecomendation}"
+				                       update="messages9 recomendation" sizeLimit="10000000" fileLimit="1" auto="true"
+				                       fileLimitMessage="#{msgs.fileLimitMessage}" dragDropSupport="true"
+				                       uploadLabel="#{msgs.upload}" cancelLabel="#{msgs.cancel}" label="#{msgs.choose}" 
+				                       rendered="#{step2Controller.module.status ne 'COMPLETED'}" />
+				         		<p:growl id="messages9" showDetail="true"/>  
+				         		<h:panelGrid columns="2">
+					                <p:commandButton styleClass="orange-btn" value="#{step2Controller.recomendation.name}" ajax="false" rendered="#{step2Controller.recomendation.name ne null}" icon="fas fa-download">
+							            <p:fileDownload value="#{utilController.downloadFile(step2Controller.recomendation)}" />
+								    </p:commandButton>      
+						            <h:commandLink action="#{step2Controller.removeRecomendation()}" immediate="true" alt="#{msgs.delete}" rendered="#{step2Controller.recomendation.name ne null and (step2Controller.module.status eq 'FILLED' or step2Controller.module.status eq 'NEW')}"> <i class="fa fa-lg fa-trash"/> </h:commandLink>
+					            </h:panelGrid>
+					            <br /><br />
+					            <h:outputLabel />
+					            <h:outputLabel value="#{step2Controller.module.recomendationDate}" rendered="#{step2Controller.module.id ne null}" style="color: burlywood">
+					                <f:convertDateTime pattern="yyyy-MM-dd HH:mm" />
+					            </h:outputLabel>
+				     	</h:panelGrid>	        	
+		        	</div>
+		        	<div class="col-3">
+		        	    <h:outputLabel value="TOEFL/IELTS" rendered="#{step2Controller.isMasterStudent(step2Controller.module.person)}" style="color:#6aff6a"/>
+			            <h:outputLabel value="TOEFL/IELTS" rendered="#{!step2Controller.isMasterStudent(step2Controller.module.person)}"/>
+				        <h:panelGrid columns="1" id="toefl">
+				    		
+								<p:fileUpload mode="advanced" fileUploadListener="#{step2Controller.handleFileUploadToefl}"
+				                       update="messages10 toefl" sizeLimit="10000000" fileLimit="1" auto="true"
+				                       fileLimitMessage="#{msgs.fileLimitMessage}" dragDropSupport="true"
+				                       uploadLabel="#{msgs.upload}" cancelLabel="#{msgs.cancel}" label="#{msgs.choose}" 
+				                       rendered="#{step2Controller.module.status ne 'COMPLETED'}" />
+				         		<p:growl id="messages10" showDetail="true"/>  
+				         		<h:panelGrid columns="2">
+					                <p:commandButton styleClass="orange-btn" value="#{step2Controller.toefl.name}" ajax="false" rendered="#{step2Controller.toefl.name ne null}" icon="fas fa-download">
+							            <p:fileDownload value="#{utilController.downloadFile(step2Controller.toefl)}" />
+								    </p:commandButton>     
+						            <h:commandLink action="#{step2Controller.removeToefl()}" immediate="true" alt="#{msgs.delete}" rendered="#{step2Controller.toefl.name ne null and (step2Controller.module.status eq 'FILLED' or step2Controller.module.status eq 'NEW')}"> <i class="fa fa-lg fa-trash"/> </h:commandLink>
+					            </h:panelGrid>
+					            <br /><br />
+					            <h:outputLabel />
+					            <h:outputLabel value="#{step2Controller.module.toeflDate}" rendered="#{step2Controller.module.id ne null}" style="color: burlywood">
+					                <f:convertDateTime pattern="yyyy-MM-dd HH:mm" />
+					            </h:outputLabel>
+				     	</h:panelGrid>	        	
+		        	</div>
+		        	<div class="col-3">
+			            <h:outputLabel value="Healt Certificate (086)"/>
+				        <h:panelGrid columns="1" id="health">
+				    		
+								<p:fileUpload mode="advanced" fileUploadListener="#{step2Controller.handleFileUploadHealth}"
+				                       update="messages11 health" sizeLimit="10000000" fileLimit="1" auto="true"
+				                       fileLimitMessage="#{msgs.fileLimitMessage}" dragDropSupport="true"
+				                       uploadLabel="#{msgs.upload}" cancelLabel="#{msgs.cancel}" label="#{msgs.choose}" 
+				                       rendered="#{step2Controller.module.status ne 'COMPLETED'}" />
+				         		<p:growl id="messages11" showDetail="true"/>  
+				         		<h:panelGrid columns="2">
+					                <p:commandButton styleClass="orange-btn" value="#{step2Controller.health.name}" ajax="false" rendered="#{step2Controller.health.name ne null}" icon="fas fa-download">
+							            <p:fileDownload value="#{utilController.downloadFile(step2Controller.health)}" />
+								    </p:commandButton>    
+						            <h:commandLink action="#{step2Controller.removeHealth()}" immediate="true" alt="#{msgs.delete}" rendered="#{step2Controller.health.name ne null and (step2Controller.module.status eq 'FILLED' or step2Controller.module.status eq 'NEW')}"> <i class="fa fa-lg fa-trash"/> </h:commandLink>
+					            </h:panelGrid>
+					            <br /><br />
+					            <h:outputLabel />
+					            <h:outputLabel value="#{step2Controller.module.healthDate}" rendered="#{step2Controller.module.id ne null}" style="color: burlywood">
+					                <f:convertDateTime pattern="yyyy-MM-dd HH:mm" />
+					            </h:outputLabel>
+				     	</h:panelGrid>	        	
+		        	</div>
+		        	<div class="col-3">
+			            <h:outputLabel value="Employment Letter (sponsor) "/>
+				        <h:panelGrid columns="1" id="employment">
+				    		
+								<p:fileUpload mode="advanced" fileUploadListener="#{step2Controller.handleFileUploadEmployment}"
+				                       update="messages12 employment" sizeLimit="10000000" fileLimit="1" auto="true"
+				                       fileLimitMessage="#{msgs.fileLimitMessage}" dragDropSupport="true"
+				                       uploadLabel="#{msgs.upload}" cancelLabel="#{msgs.cancel}" label="#{msgs.choose}" 
+				                       rendered="#{step2Controller.module.status ne 'COMPLETED'}" />
+				         		<p:growl id="messages12" showDetail="true"/>  
+				         		<h:panelGrid columns="2">
+					                <p:commandButton styleClass="orange-btn" value="#{step2Controller.employment.name}" ajax="false" rendered="#{step2Controller.employment.name ne null}" icon="fas fa-download">
+							            <p:fileDownload value="#{utilController.downloadFile(step2Controller.employment)}" />
+								    </p:commandButton>     
+						            <h:commandLink action="#{step2Controller.removeEmployment()}" immediate="true" alt="#{msgs.delete}" rendered="#{step2Controller.employment.name ne null and (step2Controller.module.status eq 'FILLED' or step2Controller.module.status eq 'NEW')}"> <i class="fa fa-lg fa-trash"/> </h:commandLink>
+					            </h:panelGrid>
+					            <br /><br />
+					            <h:outputLabel />
+					            <h:outputLabel value="#{step2Controller.module.employmentDate}" rendered="#{step2Controller.module.id ne null}" style="color: burlywood">
+					                <f:convertDateTime pattern="yyyy-MM-dd HH:mm" />
+					            </h:outputLabel>
+				     	</h:panelGrid>	        	
+		        	</div>
+		        	<div class="col-3">
+			            <h:outputLabel value="GRE/GMAT"/>
+				        <h:panelGrid columns="1" id="gre">
+				    		
+								<p:fileUpload mode="advanced" fileUploadListener="#{step2Controller.handleFileUploadGre}"
+				                       update="messages13 gre" sizeLimit="10000000" fileLimit="1" auto="true"
+				                       fileLimitMessage="#{msgs.fileLimitMessage}" dragDropSupport="true"
+				                       uploadLabel="#{msgs.upload}" cancelLabel="#{msgs.cancel}" label="#{msgs.choose}" 
+				                       rendered="#{step2Controller.module.status ne 'COMPLETED'}" />
+				         		<p:growl id="messages13" showDetail="true"/>  
+				         		<h:panelGrid columns="2">
+					                <p:commandButton styleClass="orange-btn" value="#{step2Controller.gre.name}" ajax="false" rendered="#{step2Controller.gre.name ne null}" icon="pi pi-arrow-down">
+									        <p:fileDownload value="#{utilController.downloadFile(step2Controller.gre)}" />
+									</p:commandButton>    
+						            <h:commandLink action="#{step2Controller.removeGre()}" immediate="true" alt="#{msgs.delete}" rendered="#{step2Controller.gre.name ne null and (step2Controller.module.status eq 'FILLED' or step2Controller.module.status eq 'NEW')}"> <i class="fa fa-lg fa-trash"/> </h:commandLink>
+					            </h:panelGrid>
+					            <br /><br />
+					            <h:outputLabel />
+					            <h:outputLabel value="#{step2Controller.module.greDate}" rendered="#{step2Controller.module.id ne null}" style="color: burlywood">
+					                <f:convertDateTime pattern="yyyy-MM-dd HH:mm" />
+					            </h:outputLabel>
+				     	</h:panelGrid>	        	
+		        	</div>
+		        	<div class="col-3">
+			            <h:outputLabel value="Autobiography"/>
+				        <h:panelGrid columns="1" id="autobiography">
+				    		
+								<p:fileUpload mode="advanced" fileUploadListener="#{step2Controller.handleFileUploadAutobiography}"
+				                       update="messages14 autobiography" sizeLimit="10000000" fileLimit="1" auto="true"
+				                       fileLimitMessage="#{msgs.fileLimitMessage}" dragDropSupport="true"
+				                       uploadLabel="#{msgs.upload}" cancelLabel="#{msgs.cancel}" label="#{msgs.choose}" 
+				                       rendered="#{step2Controller.module.status ne 'COMPLETED'}" />
+				         		<p:growl id="messages14" showDetail="true"/>  
+				         		<h:panelGrid columns="2">
+					                <p:commandButton styleClass="orange-btn" value="#{step2Controller.autobiography.name}" ajax="false" rendered="#{step2Controller.autobiography.name ne null}" icon="fas fa-download">
+							            <p:fileDownload value="#{utilController.downloadFile(step2Controller.autobiography)}" />
+								    </p:commandButton>     
+						            <h:commandLink action="#{step2Controller.removeAutobiography()}" immediate="true" alt="#{msgs.delete}" rendered="#{step2Controller.autobiography.name ne null and (step2Controller.module.status eq 'FILLED' or step2Controller.module.status eq 'NEW')}"> <i class="fa fa-lg fa-trash"/> </h:commandLink>
+					            </h:panelGrid>
+					            <br /><br />
+					            <h:outputLabel />
+					            <h:outputLabel value="#{step2Controller.module.autobiographyDate}" rendered="#{step2Controller.module.id ne null}" style="color: burlywood">
+					                <f:convertDateTime pattern="yyyy-MM-dd HH:mm" />
+					            </h:outputLabel>
+				     	</h:panelGrid>	        	
+		        	</div>
+		        	<div class="col-3">
+			            <h:outputLabel value="Financial Responsibility"/>
+				        <h:panelGrid columns="1" id="finance">
+				    		
+								<p:fileUpload mode="advanced" fileUploadListener="#{step2Controller.handleFileUploadFinancial}"
+				                       update="messages15 finance" sizeLimit="10000000" fileLimit="1" auto="true"
+				                       fileLimitMessage="#{msgs.fileLimitMessage}" dragDropSupport="true"
+				                       uploadLabel="#{msgs.upload}" cancelLabel="#{msgs.cancel}" label="#{msgs.choose}" 
+				                       rendered="#{step2Controller.module.status ne 'COMPLETED'}" />
+				         		<p:growl id="messages15" showDetail="true"/>  
+				         		<h:panelGrid columns="2">
+					                <p:commandButton styleClass="orange-btn" value="#{step2Controller.financial.name}" ajax="false" rendered="#{step2Controller.financial.name ne null}" icon="fas fa-download">
+							            <p:fileDownload value="#{utilController.downloadFile(step2Controller.financial)}" />
+								    </p:commandButton>     
+						            <h:commandLink action="#{step2Controller.removeFinancial()}" immediate="true" alt="#{msgs.delete}" rendered="#{step2Controller.financial.name ne null and (step2Controller.module.status eq 'FILLED' or step2Controller.module.status eq 'NEW')}"> <i class="fa fa-lg fa-trash"/> </h:commandLink>
+					            </h:panelGrid>
+					            <br /><br />
+					            <h:outputLabel />
+					            <h:outputLabel value="#{step2Controller.module.financialDate}" rendered="#{step2Controller.module.id ne null}" style="color: burlywood">
+					                <f:convertDateTime pattern="yyyy-MM-dd HH:mm" />
+					            </h:outputLabel>
+				     	</h:panelGrid>	        	
+		        	</div>
+		        	<h:panelGroup layout="block" class="col submit" rendered="#{step2Controller.module.status ne 'COMPLETED'}">
+						<p:commandButton ajax="false" styleClass="add-btn" value="#{msgs.save}" actionListener="#{step2Controller.save()}" />
+					</h:panelGroup>
+					<h:panelGroup layout="block" class="col button" rendered="#{step2Controller.module.status eq 'FILLED' and !step2Controller.isMasterStudent(step2Controller.module.person)}">
+						<p:commandButton  styleClass="green-btn" id="clearBtn1" update="@form formLeftSide growl" action="#{step2Controller.complete()}" value="#{msgs.approve}" >
+						   <p:confirm header="Confirmation required ..." message="Do you really want to complete this process?" icon="pi pi-exclamation-triangle" />
+						</p:commandButton>
+					</h:panelGroup>	
+					<h:panelGroup layout="block" class="col button" rendered="#{step2Controller.module.status eq 'FILLED' and step2Controller.isMasterStudent(step2Controller.module.person) }">
+						<p:commandButton  styleClass="green-btn" id="clearBtn2" update="@form formLeftSide growl" action="#{step2Controller.completeMaster()}" value="#{msgs.approve}" >
+						   <p:confirm header="Confirmation required ..." message="Do you really want to complete this process?" icon="pi pi-exclamation-triangle" />
+						</p:commandButton>
+					</h:panelGroup>	
+					<p:growl id="growl" showDetail="true"  /> 
+		        </div>
+		        <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+			        <p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes" icon="pi pi-check" />
+			        <p:commandButton value="No" type="button" styleClass="orange-btn" icon="pi pi-times" />
+			    </p:confirmDialog>
+		</div>
+      </h:form>
+	</ui:define>
+</ui:composition>

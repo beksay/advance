@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	template="/WEB-INF/templates/layouts/private.xhtml">
+	<ui:define name="content">
+	<h:form>
+	   <div class="innerBlock">	
+		   <div class="innerBlockHeader">
+		        <br />
+		    	<ul>
+		    		<li>#{msgs.balance}</li>
+		    		<li></li>
+		    	</ul>
+		    	<br />
+		    </div>
+		    <div class="row">
+				<div class="col"> 
+		            <h:outputLabel for="accountType" value="#{msgs.accountType}" />	 
+				    <p:selectOneMenu ajax="false" id="accountType" value="#{balanceController.accountType}" converter="enumConverter">
+				        <f:selectItem itemLabel="" itemValue="" />
+		                <f:selectItems value="#{balanceController.accountTypeList}" var="item" itemLabel="#{enums[item]}" itemValue="#{item}"/>     
+		            </p:selectOneMenu>
+		            <h:message for="accountType" display="icon" style="color:red;" />		        	
+		        </div>
+		        <div class="col"> 
+		            <h:outputLabel for="currencyType" value="#{msgs.currencyType}" />	 
+				    <p:selectOneMenu ajax="false" id="currencyType" value="#{balanceController.currencyType}" converter="enumConverter">
+				        <f:selectItem itemLabel="" itemValue="" />
+		                <f:selectItems value="#{incomeController.currencyTypeList}" var="item" itemLabel="#{enums[item]}" itemValue="#{item}"/>     
+		            </p:selectOneMenu>
+		            <h:message for="currencyType" display="icon" style="color:red;" />		        	
+		        </div>
+		        <div class="col"> 
+		            <h:outputLabel value="#{msgs.dateFrom}" for="dateFrom"/>
+	                <p:calendar id="dateFrom" value="#{balanceController.dateFrom}" 
+			                 navigator="true" pattern="yyyy-MM-dd"  />
+		        </div>
+		        <div class="col"> 
+		            <h:outputLabel value="#{msgs.dateTo}" for="dateTo"/>
+	                <p:calendar id="dateTo" value="#{balanceController.dateTo}" 
+			                 navigator="true" pattern="yyyy-MM-dd"  />
+		        </div>
+				<div class="col submit">
+					<p:commandButton id="applyBtn" ajax="false" action="#{balanceController.filterData()}" value="#{msgs.apply}" />				
+				</div>
+				<div class="col submit">
+					<p:commandButton ajax="false" styleClass="orange-btn" id="clearBtn" action="#{balanceController.clearData()}" value="#{msgs.clear}" />				
+				</div>
+			</div>
+			<br />
+			<div class="row">
+				<div class="col">
+				   <h:outputLabel value="#{enums[balanceController.currencyType]}" />
+				   <h:panelGrid columns="10">
+					    <h:outputLabel value="#{balanceController.totalIncome} - " >
+					        <f:convertNumber type="number" groupingUsed="true" minFractionDigits="2"/>
+					    </h:outputLabel>
+					    <h:outputLabel value=" #{balanceController.totalOutcome} =" >
+					        <f:convertNumber type="number" groupingUsed="true" minFractionDigits="2"/>
+					    </h:outputLabel>
+					    <h:outputLabel value="#{balanceController.totalIncome-balanceController.totalOutcome}" style="color:#a9f0a9">
+					        <f:convertNumber type="number" groupingUsed="true" minFractionDigits="2"/>
+					    </h:outputLabel>
+			       </h:panelGrid> 
+				</div>
+			</div>	
+			
+	    </div>
+	</h:form>
+	</ui:define>
+</ui:composition>

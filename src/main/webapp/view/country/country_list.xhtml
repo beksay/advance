@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	template="/WEB-INF/templates/layouts/private.xhtml">
+	<ui:define name="content">
+		<h:form>	
+		<div class="innerBlock">
+		    <div class="innerBlockHeader">
+		    	<ul>
+		    		<li></li>
+					<li><p:commandButton ajax="false" action="#{countryController.add()}" value="Add Country" /></li>
+		    	</ul>
+		    </div>
+
+			<p:dataTable var="entity" value="#{countryList.model}" paginator="true" rows="30" rowIndexVar="index" lazy="true" 
+				emptyMessage="#{msgs.noRecordsFound}" sortOrder="DESCENDING" selectionMode="single" selection="#{countryController.country}"
+				rowsPerPageTemplate="30,60,90,120,150" paginatorPosition="bottom" pageLinks="10" currentPageReportTemplate="#{msgs.showPaymentNumbers}" 
+	            paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {CurrentPageReport} {RowsPerPageDropdown}">
+		 		<p:ajax event="rowSelect" listener="#{countryController.onRowSelect}"/>
+		 		<f:facet name="header">
+			         #{msgs.country}
+			    </f:facet>
+		        <p:column headerText="#{msgs.id}">
+		        	<h:outputText value="#{entity.id}" />
+		        </p:column>
+		        <p:column headerText="#{msgs.name}">
+		          	<h:outputText value="#{entity.name}" />
+		        </p:column>
+		        <p:column headerText="#{msgs.operation}">
+		            <p:commandButton action="#{countryController.edit(entity)}" update="@form" icon="fa fa-edit" class="btn-journal" title="#{msgs.edit}" />
+		            <p:commandButton action="#{countryController.delete(entity)}" update="@form" icon="fa fa-trash" class="btn-journal" title="#{msgs.delete}" />
+		        </p:column>	
+	        </p:dataTable>
+			</div>	        
+		</h:form>
+	</ui:define>
+</ui:composition>

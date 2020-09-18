@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	template="/WEB-INF/templates/layouts/private.xhtml">
+	<ui:define name="content">
+		<div class="innerBlock">	
+	    <h:form id="form">
+		<div class="pageTitle">
+			<h2>#{msgs.outcomeForm}</h2>
+		</div>
+		<div class="pageBlock">
+			<div class="pageBody">
+
+					<h:panelGrid columns="3">
+					
+						<h:outputLabel for="accountType" value="#{msgs.accountType}" />	 
+					    <p:selectOneMenu ajax="false" id="accountType" value="#{outcomeController.money.accountType}" converter="enumConverter"
+					        required="true" requiredMessage="#{msgs.accountType} - #{msgs.isReq}">
+					        <f:selectItem itemLabel="" itemValue="" />
+			                <f:selectItems value="#{outcomeController.accountTypeList}" var="item" itemLabel="#{enums[item]}" itemValue="#{item}"/>     
+			            </p:selectOneMenu>
+			            <h:message for="accountType" display="icon" style="color:red;" />
+			            
+			            <h:outputLabel value="#{msgs.amount}" />
+						<h:inputText id="amount" value="#{outcomeController.money.amount}" required="true"
+							requiredMessage="#{msgs.amount} - #{msgs.isReq}">
+						</h:inputText>
+						<h:message for="amount" display="icon" style="color:red;" />
+						
+						<h:outputLabel for="currencyType" value="#{msgs.currencyType}" />	 
+					    <p:selectOneMenu ajax="false" id="currencyType" value="#{outcomeController.money.currencyType}" converter="enumConverter"
+					        required="true" requiredMessage="#{msgs.currencyType} - #{msgs.isReq}">
+					        <f:selectItem itemLabel="" itemValue="" />
+			                <f:selectItems value="#{outcomeController.currencyTypeList}" var="item" itemLabel="#{enums[item]}" itemValue="#{item}"/>     
+			            </p:selectOneMenu>
+			            <h:message for="currencyType" display="icon" style="color:red;" />
+			            
+						<h:outputLabel for="centerType" value="#{msgs.centerType}" />	 
+					    <p:selectOneMenu ajax="false" id="centerType" value="#{outcomeController.money.centerType}" converter="enumConverter"
+					        required="true" requiredMessage="#{msgs.centerType} - #{msgs.isReq}">
+					        <f:selectItem itemLabel="" itemValue="" />
+			                <f:selectItems value="#{outcomeController.centerTypeList}" var="item" itemLabel="#{enums[item]}" itemValue="#{item}"/>    
+			                <p:ajax event="change" update="student adminType changeId"/> 
+			            </p:selectOneMenu>
+			            <h:message for="centerType" display="icon" style="color:red;" />
+			            
+			             <h:outputLabel  />
+			             <h:outputLabel  />
+			            <h:panelGrid id="changeId" columns="3">
+			            <h:outputLabel for="student" value="#{msgs.student}" rendered="#{outcomeController.money.centerType eq 'SAC'}"/>	
+			            <p:autoComplete  id="student" dropdown="true" rendered="#{outcomeController.money.centerType eq 'SAC'}"
+							var="type" itemValue="#{type}" itemLabel="#{type.fullname}" 
+							value="#{outcomeController.money.person}" converter="cachedConverter"  
+							completeMethod="#{outcomeController.getPersonList}" >
+						</p:autoComplete>
+			            <h:message for="student" display="icon" style="color:red;" rendered="#{outcomeController.money.centerType eq 'SAC'}"/>
+			            
+			            
+			            <h:outputLabel for="adminType" value="#{msgs.adminType}" rendered="#{outcomeController.money.centerType eq 'ADMINISTRATIVE'}"/>	 
+					    <p:selectOneMenu ajax="false" id="adminType" value="#{outcomeController.money.adminType}" converter="enumConverter"
+					        required="true" requiredMessage="#{msgs.adminType} - #{msgs.isReq}" rendered="#{outcomeController.money.centerType eq 'ADMINISTRATIVE'}">
+					        <f:selectItem itemLabel="" itemValue="" />
+			                <f:selectItems value="#{outcomeController.adminTypeList}" var="item" itemLabel="#{enums[item]}" itemValue="#{item}"/>    
+			                <p:ajax event="change" update="student"/> 
+			            </p:selectOneMenu>
+			            <h:message for="adminType" display="icon" style="color:red;" rendered="#{outcomeController.money.centerType eq 'ADMINISTRATIVE'}"/>
+                        </h:panelGrid>
+                       
+
+						<h:outputLabel value="#{msgs.note}" />
+						<h:inputText id="note" value="#{outcomeController.money.note}" required="true"
+							requiredMessage="#{msgs.note} - #{msgs.isReq}">
+						</h:inputText>
+						<h:message for="note" display="icon" style="color:red;" />
+						
+						<h:outputLabel value="#{msgs.dateCreated}" for="birthDate"/>
+		                <p:calendar id="dateCreated" value="#{outcomeController.money.dateCreated}" 
+	                       navigator="true" pattern="yyyy-MM-dd" 
+	                       required="true" requiredMessage="#{msgs.dateCreated} - #{msgs.isReq}" /> 
+		                <h:message for="dateCreated" display="icon" style="color:red;" />
+					</h:panelGrid>
+
+					<div class="col submit">
+					<p:commandButton id="applyBtn" action="#{outcomeController.save()}" value="#{msgs.save}" />				
+					</div>
+					<div class="col submit">
+						<p:commandButton ajax="false" styleClass="orange-btn" id="clearBtn" action="#{outcomeController.cancel()}" immediate="true" value="#{msgs.cancel}" />				
+					</div>
+			
+			</div>
+		</div>
+	</h:form>
+	</div>
+	</ui:define>
+</ui:composition>

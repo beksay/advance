@@ -1,0 +1,38 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"> 
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"> 
+
+<ui:composition>
+	    <div class="mainSidecontent">
+			<h:form id="formLeftSide">
+			          
+		        <div class="main-menu">
+		           <h:panelGroup  layout="block">
+						<span><i class="fas fa-user"></i></span>
+	          	   </h:panelGroup>
+		          <h:commandLink  action="#{contractController.editProfile()}"  value="Student Profile" styleClass="#{view.viewId.contains('main') ? 'active' : ''}"/>	
+ 			
+		           <ui:repeat var="module" value="#{contractController.modules}">
+		          		<h:panelGroup  layout="block" rendered="#{module.status eq 'FILLED' and module.index eq 1}">
+							<span><i class="fas fa-hourglass-half"></i></span>
+		          	   </h:panelGroup>
+		          	   <h:panelGroup  layout="block" rendered="#{module.status eq 'NEW' and module.index eq 1}">
+							<span><i class="fas fa-plus"></i></span>
+		          	   </h:panelGroup>
+		          	   <h:panelGroup  layout="block" rendered="#{module.status eq 'COMPLETED' and module.index eq 1}">
+							<span><i class="fas fa-circle"></i></span>
+		          	   </h:panelGroup>
+		               <h:commandLink rendered="#{module.index eq 1}" action="#{step1Controller.edit(module)}"  value="Contract Signed" styleClass="#{view.viewId.contains('contract_signed') ? 'active' : ''}"/>
+		          </ui:repeat>
+		       
+		          
+				</div>
+ 			
+ 			</h:form>	
+ 							
+		</div> 
+	</ui:composition>
+</html>

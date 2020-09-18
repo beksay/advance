@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	template="/WEB-INF/templates/layouts/private.xhtml">
+	<ui:define name="main-content-left">
+		<ui:include src="../../../WEB-INF/templates/private/mainleftcontent.xhtml" />		
+	</ui:define>	
+	<ui:define name="content">
+		<div class="innerBlock">
+		    <div class="innerBlockHeader">
+		    	<ul>
+		    		<li>Application Submission</li>
+		    		<li><a><i class="fas fa-user"></i></a></li>
+					<li>#{step4Controller.module.person.fullname}</li>
+		    	</ul>
+		    </div>		
+		    <h:form id="form">	         
+			     <p:dataTable id="detailTable" var="entity" value="#{step4Controller.list}" 
+						paginator="false" rowIndexVar="index" lazy="false" 
+						emptyMessage="#{msgs.noRecordsFound}" 
+						style="margin-top:0px"
+						sortOrder="DESCENDING"
+						styleClass="borderless"	>       
+
+			         <p:column headerText="#{msgs.number}" width="50">
+			        	<h:outputText value="#{index+1}" />
+			         </p:column> 
+			         
+			         <p:column headerText="#{msgs.universityName}" >
+			        	<h:outputText value="#{entity.universityName}" />
+			         </p:column>
+			         
+			         <p:column headerText="#{msgs.dateCreated}" >
+			        	<h:outputText value="#{entity.dateCreated}" >
+				        	<f:convertDateTime pattern="yyyy-MM-dd HH:mm" />
+			        	</h:outputText>
+			         </p:column>
+			         
+			         <p:column headerText="#{msgs.filledBy}" >
+			        	<h:outputText value="#{entity.user.person.fullname}" />
+			         </p:column>
+		         </p:dataTable>
+		         
+		         <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+			        <p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes" icon="pi pi-check" />
+			        <p:commandButton value="No" type="button" styleClass="orange-btn" icon="pi pi-times" />
+			    </p:confirmDialog>
+		 </h:form>
+		</div>
+	</ui:define>
+</ui:composition>

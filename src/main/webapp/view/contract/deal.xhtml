@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	template="/WEB-INF/templates/layouts/private.xhtml">
+	<ui:define name="main-content-left">
+		<ui:include src="../../WEB-INF/templates/private/left_contract.xhtml" />		
+	</ui:define>
+	<ui:define name="content">
+	  <h:form id="mainForm">
+		<div class="innerBlock">
+			<div class="innerBlockHeader">
+		    	<ul>
+		    		<li>Contract</li>
+					<li><a><i class="fa fa-file"></i></a></li>
+		    	</ul>
+		    </div>
+		        <div class="row">
+		        
+			       
+		        </div>
+		        <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+			        <p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes" icon="pi pi-check" />
+			        <p:commandButton value="No" type="button" styleClass="orange-btn" icon="pi pi-times" />
+			    </p:confirmDialog>
+		   </div>
+       </h:form>
+	</ui:define>
+</ui:composition>

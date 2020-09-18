@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	template="/WEB-INF/templates/layouts/private.xhtml">
+	<ui:define name="content">
+		<h:form>
+		<div class="innerBlock" style="background-color:#f1f4f7">
+			<div class="row">
+			    <div class="col-7">
+				   <p:chart type="bar"  model="#{abroadChartView.horizontalBarModel}" />	
+				</div>
+			</div>
+	      </div>
+		</h:form>
+		<h:form>
+		<div class="innerBlock" style="background-color:#f1f4f7">
+			<div class="row">
+				<div class="col-7">
+				   <p:chart type="bar"  model="#{abroadCountryChartView.countryBarModel}" />	
+				</div>
+			</div>
+	      </div>
+		</h:form>
+		<h:form>
+		<div class="innerBlock" style="background-color:#f1f4f7">
+			<div class="row">
+				<div class="col-7">
+				   <p:chart type="bar"  model="#{visaChartView.horizontalBarModel}" />	
+				</div>
+			</div>
+	      </div>
+		</h:form>
+	</ui:define>
+</ui:composition>
