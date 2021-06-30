@@ -1,7 +1,5 @@
 package org.infosystema.advance.domain;
 
-import java.util.Date;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -10,8 +8,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 import javax.persistence.UniqueConstraint;
 
 import org.infosystema.advance.enums.UserStatus;
@@ -32,7 +28,6 @@ public class User extends AbstractEntity<Integer>  {
 	private String username;
 	private UserStatus status;
 	private Integer countFailed;
-	private Date datePasswordExpired;
 	private Role role;
 	private UserPerson person;
 
@@ -68,16 +63,6 @@ public class User extends AbstractEntity<Integer>  {
 	
 	public void setCountFailed(Integer countFailed) {
 		this.countFailed = countFailed;
-	}
-	
-	@Temporal(TemporalType.DATE)
-	@Column(name="date_password_expired")
-	public Date getDatePasswordExpired() {
-		return datePasswordExpired;
-	}
-	
-	public void setDatePasswordExpired(Date datePasswordExpired) {
-		this.datePasswordExpired = datePasswordExpired;
 	}
 	
 	@ManyToOne

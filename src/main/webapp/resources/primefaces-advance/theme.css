@@ -7389,15 +7389,12 @@ body .ui-dialog .ui-dialog-titlebar {
 
 body .ui-datatable .ui-datatable-header, body .ui-datatable .ui-datatable-footer {
     padding: 6px 12px;
-    background-color: bisque;
+    background-color: #ecebf3;
     color: #36366a;
 }
 
 body .loginBody {
-    background-image:url('../javax.faces.resource/test1.jpg.xhtml?ln=images');
-    background-repeat:no-repeat;
-    background-size: cover;
-	background-color: #23daa4;
+	background-color: #3098c1;
 	height:100%;
 	display:flex;
 	align-items: center;
@@ -7466,8 +7463,8 @@ body .loginContent .col-12 {
 	margin-top:10px;
 }
 body .loginContent input[type="text"], body .loginContent  input[type="password"]{
-	background:rgba(0, 0, 0, 0.7);
-	color:#fff;
+	background:rgba(227, 215, 215, 0.7);
+	color:#0b4269;
 	padding:8px;
 	border:1px solid rgba(255, 255, 255, 0.4);
 	border-radius:5px;

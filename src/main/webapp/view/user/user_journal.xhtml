@@ -8,15 +8,9 @@
 	<ui:define name="content">
 	<h:form>
 	   <div class="innerBlock">	
-		   <div class="innerBlockHeader">
-		    	<ul>
-		    		<li></li>
-		    		<li><p:commandButton action="#{userAction.add()}" value="Add new user" />	</li>
-		    	</ul>
-		    </div>
 		    <div class="row">
 				<div class="col">
-					<h:outputLabel value="#{msgs.firstname}" />
+					<h:outputLabel value="#{msgs.fullName}" />
 					<p:inputText id="name" value="#{userList.name}"	title="Type name" />
 					<p:tooltip id="nameTooltip" for="name" showEvent="focus" hideEvent="blur" />			
 				</div>
@@ -26,8 +20,10 @@
 				<div class="col submit">
 					<p:commandButton ajax="false" styleClass="orange-btn" id="clearBtn" action="#{userList.clearData()}" value="#{msgs.clear}" />				
 				</div>
+				<div class="col submit">
+					<p:commandButton action="#{userAction.add()}" value="Add new user" />				
+				</div>
 			</div>
-			
 			<p:dataTable var="entity" value="#{userList.model}" id="table"
 			paginator="true" rows="10" rowIndexVar="index" lazy="true" 
 			emptyMessage="#{msgs.noRecordsFound}" 
@@ -52,18 +48,14 @@
 		        <p:column headerText="#{msgs.status}">
 		        	<h:outputText value="#{enums[entity.status]}" />
 		        </p:column>
-    
 		        <p:column headerText="#{msgs.operation}">
 		            <p:commandButton action="#{userAction.edit(entity)}" update="@form" icon="fa fa-edit" class="btn-journal" title="#{msgs.edit}" />
 		            <p:commandButton action="#{userAction.block(entity)}" styleClass="add-btn" update="table"  title="Lock" icon="fa fa-unlock" rendered="#{entity.status.toString() eq 'ACTIVE'}" />
 			        <p:commandButton action="#{userAction.unblock(entity)}" styleClass="add-btn" update="table" icon="fa fa-lock" title="Unlock" rendered="#{entity.status.toString() eq 'INACTIVE' or entity.status.toString() eq 'BLOCKED'}" />
 			        <p:commandButton action="#{userAction.refreshPassword(entity)}" styleClass="add-btn" update="table" icon="fa fa-spinner" title="Reset the password" />  
-		        </p:column>
-		        
-		        
+		        </p:column>	        
 	        </p:dataTable>
-	
-	</div>
+	  </div>
 	</h:form>
 	</ui:define>
 </ui:composition>

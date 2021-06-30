@@ -98,12 +98,6 @@ public class UserController {
 		
 		loginUtil.setCurrentUser(user);
 		
-		if(user.getDatePasswordExpired() == null || user.getDatePasswordExpired().getTime()  <= System.currentTimeMillis()){
-			ScopeQualifier qualifier = new FacesScopeQualifier();
-			qualifier.setValue("changePassword", true, ScopeConstants.SESSION_SCOPE);
-			return "/view/user/change_password.xhtml";
-		}
-		
 		String address = loginUtil.userHasRole(user, "admin") ? "/" + Configuration.getInstance().getProperty("projectName") 
 				+ "/view/main.xhtml" : "/" + Configuration.getInstance().getProperty("projectName") + "/view/main.xhtml";
 		

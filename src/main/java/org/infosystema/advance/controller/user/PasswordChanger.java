@@ -40,8 +40,6 @@ public class PasswordChanger extends Conversational {
 	
 	@Inject
 	private LoginUtil loginUtil;
-	@Inject
-	private UtilController controller;
 	
 	public PasswordChanger() {}
 	
@@ -76,7 +74,6 @@ public class PasswordChanger extends Conversational {
 		
 		user.setPassword(hashPassword);
 		user.setCountFailed(0);
-		user.setDatePasswordExpired(calendar.getTime());
 		user = service.merge(user);
 		
 		ScopeQualifier qualifier = new FacesScopeQualifier();
